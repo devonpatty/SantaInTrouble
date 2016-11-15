@@ -2,6 +2,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const pgp = require('pg-promise')();
+const router = express.Router();
 const user = require('./user.js');
 
 const app = express();
@@ -19,6 +21,25 @@ app.post('/signup', (req, res) => {
   console.log("username : " + username);
   console.log("password : " + password);
   res.render('index', { username, password });
+});
+
+// breyta þarf hér fyrir    user   password                    database
+const db = pgp('postgres://Notandi:qdsUf7ri@localhost:5432/santaintrouble');
+app.get('/sql', (req, res, next) => {
+  db.any('select * from user')
+    .then((data) => {
+      for(var prop in data) {
+        if(data.hasOwnProperty(prop)) {
+          console.log(data);
+          console.log('data: ' + data[prop].username);
+        }
+      }
+      res.render('data', { title: 'Data', data });
+    })
+    .catch((error) => {
+      console.log('error', error);
+      res.render('error', {title: 'Error', error});
+    });
 });
 /*
 app.post('/calculated', (req, res) => {
