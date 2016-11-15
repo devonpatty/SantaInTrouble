@@ -5,5 +5,12 @@ html(lang="en")
     title=title
   body
     .wrapper
+      div
+        form(action="/signup" method="post")
+          label Name:
+          input(type="text" name="userFieldInput")
+          label Password:
+          input(type="password" name="passFieldInput")
+          button Sign Up
       canvas(id=myCanvas, width="800", height="600", style="border: 1px solid black;")
     #output

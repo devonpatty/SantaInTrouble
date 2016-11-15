@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const user = require('./user.js');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -10,6 +11,14 @@ app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
   res.render('index', { title: 'SantaInTroubles' });
+});
+
+app.post('/signup', (req, res) => {
+  const username = req.body.userFieldInput;
+  const password = user.checkValidPassword(req.body.passFieldInput);
+  console.log("username : " + username);
+  console.log("password : " + password);
+  res.render('index', { username, password });
 });
 /*
 app.post('/calculated', (req, res) => {
