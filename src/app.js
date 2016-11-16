@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const pgp = require('pg-promise')();
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 const router = express.Router();
 const user = require('./user.js');
 
@@ -13,8 +14,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 // breyta þarf hér fyrir    user   password                    database
-const db = pgp('postgres://postgres:Arsenal1@localhost:5432/santaintrouble');
+const db = pgp('postgres://postgres:anmineverdie94@localhost:5432/santaintrouble');
 app.use(session({
+  store: new pgSession({
+    conString: 'postgres://postgres:anmineverdie94@localhost:5432/santaintrouble'
+  }),
   secret: 'jkhefhjNHmhgemjh7623ghw872jhgjHu72gh',
   resave: false,
   saveUninitialized: true
@@ -39,7 +43,7 @@ app.post('/newUser', (req, res) => {
   console.log("username : " + username);
   console.log("password : " + password);
   db.any('insert into "user" (username, password) values ($1, $2)', [username, password]);
-  res.redirect('signup');
+  res.redirect('/');
 });
 
 app.post('/login', (req, res) => {
@@ -47,7 +51,10 @@ app.post('/login', (req, res) => {
   const password = user.checkValidPassword(req.body.passFieldInput);
   db.any('select * from "user" where "user".username=$1 and "user".password=$2', [username, password])
     .then((data) => {
-      req.session.username = username;
+      console.log(data);
+      if(data[0]) {
+        req.session.username = username;
+      }
       console.log(req.session.username);
       res.redirect('/');
     })
@@ -55,6 +62,12 @@ app.post('/login', (req, res) => {
       console.log(('error', error));
     });
 });
+
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
+
 
 function isLoggedIn(req, res, next) {
   if(req.session.username) {
