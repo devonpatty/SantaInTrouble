@@ -13,7 +13,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 // breyta þarf hér fyrir    user   password                    database
-const db = pgp('postgres://postgres:anmineverdie94@localhost:5432/santaintrouble');
+const db = pgp('postgres://postgres:Arsenal1@localhost:5432/santaintrouble');
 app.use(session({
   secret: 'jkhefhjNHmhgemjh7623ghw872jhgjHu72gh',
   resave: false,
@@ -21,19 +21,25 @@ app.use(session({
 }));
 
 
-app.get('/', (req, res) => {
-  console.log('yoyo');
+app.get('/',isLoggedIn, (req, res) => {
   res.render('index', { title: 'SantaInTroubles' , loggedIn: false});
 });
 
+app.get('/loggedIn', (req, res) => {
+  res.render('index', { title: 'SantaInTroubles', loggedIn: true});
+});
 
-app.post('/signup', (req, res) => {
+app.get('/signup', (req, res) => {
+  res.render('signup')
+});
+
+app.post('/newUser', (req, res) => {
   const username = req.body.userFieldInput;
   const password = user.checkValidPassword(req.body.passFieldInput);
   console.log("username : " + username);
   console.log("password : " + password);
   db.any('insert into "user" (username, password) values ($1, $2)', [username, password]);
-  res.render('index', { username, password });
+  res.redirect('signup');
 });
 
 app.post('/login', (req, res) => {
@@ -53,7 +59,7 @@ app.post('/login', (req, res) => {
 function isLoggedIn(req, res, next) {
   if(req.session.username) {
     console.log('logged in');
-    next();
+    res.redirect('/loggedIn');
   } else {
     console.log('not logged in');
     next();
