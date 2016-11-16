@@ -1,16 +1,60 @@
 doctype html
-html(lang="en")
+html(lang='en')
   head
-    meta(charset="utf-8")
+    meta(charset='utf-8')
     title=title
   body
     .wrapper
       div
-        form(action="/signup" method="post")
+        form(action='/signup' method='post')
           label Name:
-          input(type="text" name="userFieldInput")
+          input(type='text' name='userFieldInput')
           label Password:
-          input(type="password" name="passFieldInput")
+          input(type='password' name='passFieldInput')
           button Sign Up
-      canvas(id=myCanvas, width="800", height="600", style="border: 1px solid black;")
+      canvas#myCanvas(width='800', height='600', style='border: 1px solid black;')
     #output
+
+    script(src='./js/globals.js')
+    script(src='./js/consts.js')
+    script(src='./js/util.js')
+    script(src='./js/keys.js')
+    script(src='./js/handleMouse.js')
+
+    script(src='./js/spatialManager.js')
+    script(src='./js/entityManager.js')
+    script(src='./js/Sprite.js')
+    script(src='./js/AnimationSprite.js')
+    script(src='./js/Entity.js')
+    script(src='./js/Player.js')
+    script(src='./js/Generator.js')
+    script(src='./js/Button.js')
+    script(src='./js/Upgrade.js')
+
+
+    script(src='./js/backGround.js')
+    script(src='./js/foreGround.js')
+    script(src='./js/Tree.js')
+    script(src='./js/Animations.js')
+    script(src='./js/Snow.js')
+    script(src='./js/Stardust.js')
+
+    script(src='./js/Sleigh.js')
+    script(src='./js/PowerUp.js')
+    script(src='./js/Snowball.js')
+    script(src='./js/EnemySnowball.js')
+    script(src='./js/Gift.js')
+    script(src='./js/straightGift.js')
+    script(src='./js/snakeGift.js')
+    script(src='./js/BombGift.js')
+    script(src='./js/HomingGift.js')
+    script(src='./js/EnemySnowman.js')
+    script(src='./js/CloudEnemy.js')
+    script(src='./js/update.js')
+    script(src='./js/render.js')
+
+    script(src='./js/imagesPreload.js')
+    script(src='./js/createSprites.js')
+    script(src='./js/main.js')
+
+    script(src='./js/SantaInTroubles.js')
