@@ -6,7 +6,7 @@ var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
 
 function createInitialShips() {
-	
+
 }
 
 // =============
@@ -34,7 +34,7 @@ function gatherInputs() {
 // GAME-SPECIFIC UPDATE LOGIC
 
 function updateSimulation(du) {
-    
+
     processDiagnostics();
 
     entityManager.update(du);
@@ -56,7 +56,7 @@ function processDiagnostics() {
 	if(eatKey(CLEAR_DATA) && !entityManager.gameHasStarted) {
 		Player.clearGame();
 	}
-	
+
 	if(eatKey(PLAY_AGAIN)){
 		if(entityManager.gameIsWon){
 			entityManager.gameLost();
@@ -65,10 +65,10 @@ function processDiagnostics() {
 			entityManager.gameHasStarted = true;
 		}
 	}
-	
+
 	if(eatKey(MUTE_KEY)){
 		MUTE = !MUTE;
-	} 
+	}
 
 }
 
@@ -88,9 +88,9 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
-	
+
     entityManager.render(ctx);
-	
+
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
 
