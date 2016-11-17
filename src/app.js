@@ -14,7 +14,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 // breyta þarf hér fyrir    user   password                    database
-const dataSetting = 'postgres://postgres:anmineverdie94@localhost:5432/santaintrouble';
+const dataSetting = 'postgres://postgres:Arsenal1@localhost:5432/santaintrouble';
 const db = pgp(dataSetting);
 app.use(session({
   store: new pgSession({
@@ -71,6 +71,14 @@ app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
+
+app.get('/loginCheck', (req, res) => {
+  if(req.session.username){
+    res.send(true);
+  }else{
+    res.send(false);
+  }
+})
 
 function isLoggedIn(req, res, next) {
   if(req.session.username) {

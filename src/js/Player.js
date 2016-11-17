@@ -1,7 +1,7 @@
 "use strict";
 
 var Player = {
-	
+
 //Private Data
 _strength: {base 	: 5,
 			level 	: 0,
@@ -21,7 +21,7 @@ _magicCapacity: {base	: 60,
 _magicComsuption: {base 	: -0.06,
 				   level 	: 0,
 				   levels	: [1,0.9,0.85,0.8,0.75,0.7]
-				   }, 
+				   },
 _magnetRadius: {base	: 30,
 				level	: 0,
 				levels	: [1,3,5,7,10],
@@ -42,7 +42,7 @@ _snowBallCraft: {base : 46,
 				level : 0,
 				levels : [0,2,4,6,8,10],
 				cost:	[10,100,200,400,1000,"Maxed"]
-				},			
+				},
 _snowBallsCapacity: {base : 4,
 					level : 0,
 					levels : [0,2,4,6,8,10],
@@ -69,7 +69,22 @@ _maxDistance: 0,
 _totalKills: 0,
 
 deferredSetup: function(){
-	this._allUpgrades = [this._strength, this._speed, this._magicCapacity, this._magnetRadius, 
+	$.ajax({
+		'url': '/loginCheck',
+		'type': 'get',
+		'success': function(response){
+			if(response){
+				Player.loadFromServer();
+			}else{
+				Player.loadFromStorage()
+			};
+		}
+	})
+
+},
+
+loadFromStorage: function(){
+	this._allUpgrades = [this._strength, this._speed, this._magicCapacity, this._magnetRadius,
 						 this._luck, this._piercing, this._snowBallCraft, this._snowBallMagicRadius]
 	if(typeof(Storage) !== "undefined") {
 		this._totalGifts = parseInt(localStorage.totalGifts,10) || 0;
@@ -81,7 +96,19 @@ deferredSetup: function(){
 		}
 	} else {
 		// Sorry! No Web Storage support..
-	}					 
+	}
+},
+
+loadFromServer: function(){
+	this._allUpgrades = [this._strength, this._speed, this._magicCapacity, this._magnetRadius,
+						 this._luck, this._piercing, this._snowBallCraft, this._snowBallMagicRadius]
+	this._totalGifts = 0;
+	this._maxDistance = 0;
+	this._totalKills = 0;
+	this._curGifts = 0;
+	for(var i = 0; i < this._allUpgrades.length; i++){
+		this._allUpgrades[i].level = 0;
+	}
 },
 
 buyFor: function(x){
@@ -120,7 +147,7 @@ clearGame: function(){
 
 upgradeStrength: function(){
 	this.buyFor(this._strength.cost[this._strength.level]);
-	this._strength.level++;	
+	this._strength.level++;
 },
 
 upgradeSpeed: function(){
