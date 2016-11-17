@@ -1,9 +1,11 @@
 extends layout
 block content
-  div
+  .signUpContainer
     form(action='/newUser' method='post')
-      input(type='text' name='userFieldInput' placeholder="username" required)
+      input.genericInput(type='text' name='userFieldInput' placeholder="Username" required)
       p=userError
-      input(type='password' name='passFieldInput' placeholder="password")
+      input.genericInput(type='password' name='passFieldInput' placeholder="Password")
       p=passError
-      button Submit
+      button
+        img(src='./buttons_ico/snowman_ico.png')
+        span  Submit

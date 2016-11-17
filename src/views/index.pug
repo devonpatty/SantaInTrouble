@@ -1,17 +1,24 @@
 extends layout
 block content
-  div
+  .header
     if loggedIn
       form(action='/logout' method='get')
         button Logout
     else
-      form(action='/login' method='post')
-        input(type='text' name='userFieldInput' placeholder="Username")
-        input(type='password' name='passFieldInput' placeholder="Password")
-        button Login
+      form.loginForm(action='/login' method='post')
+        input.genericInput(type='text' name='userFieldInput' placeholder="Username")
+        span ''
+        input.genericInput(type='password' name='passFieldInput' placeholder="Password")
+        span ''
+        button
+          img(src='./buttons_ico/santa_claus_ico.png')
+          span  Login
       form(action='/signup' method='get')
-        button Sign Up
-  canvas#myCanvas(width='800', height='600', style='border: 1px solid black;')
+        button
+          img(src='./buttons_ico/snowman_ico.png')
+          span  Sign Up
+  .gameCanvas
+    canvas#myCanvas(width='800', height='600', style='border: 1px solid black;')
   #output
 
   script(src='./js/globals.js')
