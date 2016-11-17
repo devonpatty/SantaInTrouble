@@ -14,7 +14,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 // breyta þarf hér fyrir    user   password                    database
-const dataSetting = 'postgres://postgres:Arsenal1@localhost:5432/santaintrouble';
+const dataSetting = 'postgres://postgres:anmineverdie94@localhost:5432/santaintrouble';
 const db = pgp(dataSetting);
 app.use(session({
   store: new pgSession({
@@ -25,8 +25,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-
-app.get('/',isLoggedIn, (req, res) => {
+app.get('/', isLoggedIn, (req, res) => {
   res.render('index', { title: 'SantaInTroubles' , loggedIn: false});
 });
 
@@ -35,16 +34,22 @@ app.get('/loggedIn', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-  res.render('signup')
+  res.render('signup');
 });
 
 app.post('/newUser', (req, res) => {
   const username = req.body.userFieldInput;
   const password = user.checkValidPassword(req.body.passFieldInput);
-  console.log("username : " + username);
-  console.log("password : " + password);
-  db.any('insert into "user" (username, password) values ($1, $2)', [username, password]);
-  res.redirect('/');
+  if(password === "") {
+    res.render('signup', {passError: 'password length has to be more than 5.'});
+  }
+  db.any('insert into "user" (username, password) values ($1, $2)', [username, password])
+    .then((data) => {
+      res.redirect('/');
+    })
+    .catch((error) => {
+      res.render('signup', {userError: username + ' username already exists!'});
+    });
 });
 
 app.post('/login', (req, res) => {
@@ -52,11 +57,9 @@ app.post('/login', (req, res) => {
   const password = user.checkValidPassword(req.body.passFieldInput);
   db.any('select * from "user" where "user".username=$1 and "user".password=$2', [username, password])
     .then((data) => {
-      console.log(data);
       if(data[0]) {
         req.session.username = username;
       }
-      console.log(req.session.username);
       res.redirect('/');
     })
     .catch((error) => {
@@ -69,17 +72,13 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-
 function isLoggedIn(req, res, next) {
   if(req.session.username) {
-    console.log('logged in');
     res.redirect('/loggedIn');
   } else {
-    console.log('not logged in');
     next();
   }
 };
-
 
 app.get('/sql', (req, res, next) => {
   db.any('select * from "user"')

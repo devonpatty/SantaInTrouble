@@ -2,8 +2,8 @@ extends layout
 block content
   div
     form(action='/newUser' method='post')
-      label Name:
-      input(type='text' name='userFieldInput')
-      label Password:
-      input(type='password' name='passFieldInput')
+      input(type='text' name='userFieldInput' placeholder="username")
+      p=userError
+      input(type='password' name='passFieldInput' placeholder="password")
+      p=passError
       button Submit

@@ -15,8 +15,8 @@ function checkValidUser(username) {
  * @returns {} result -
  */
 function checkValidPassword(pass) {
-  const checkPass = new RegExp("(?=.*[0-9])");
-  if(checkPass.test(pass)) {
+  //const checkPass = new RegExp("((?=.*[0-9]))");
+  if(pass.length >= 5) {
     return pass;
   }
   return "";
