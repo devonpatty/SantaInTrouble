@@ -14,10 +14,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 // breyta þarf hér fyrir    user   password                    database
-const db = pgp('postgres://postgres:anmineverdie94@localhost:5432/santaintrouble');
+const dataSetting = 'postgres://postgres:Arsenal1@localhost:5432/santaintrouble';
+const db = pgp(dataSetting);
 app.use(session({
   store: new pgSession({
-    conString: 'postgres://postgres:anmineverdie94@localhost:5432/santaintrouble'
+    conString: dataSetting
   }),
   secret: 'jkhefhjNHmhgemjh7623ghw872jhgjHu72gh',
   resave: false,
