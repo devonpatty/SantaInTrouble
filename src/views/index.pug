@@ -6,10 +6,8 @@ block content
         button Logout
     else
       form(action='/login' method='post')
-        label Name:
-        input(type='text' name='userFieldInput')
-        label Password:
-        input(type='password' name='passFieldInput')
+        input(type='text' name='userFieldInput' placeholder="Username")
+        input(type='password' name='passFieldInput' placeholder="Password")
         button Login
       form(action='/signup' method='get')
         button Sign Up
