@@ -1,7 +1,3 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
 * {
 	margin: 0;
 	padding: 0;
@@ -31,6 +27,44 @@
   justify-content: center;
 }
 
+.loginForm {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loginForm input[type="text"],
+.loginForm input[type="password"] {
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+  transition: all 0.5s ease;
+  background: #eae7e7 url('../buttons_ico/input_bg_ico.png') no-repeat;
+  border: 0.5px solid #c8c8c8;
+  color: #777;
+  font: 13px Helvetica, Arial, sans-serif;
+  padding: 8px 10px 8px 40px;
+  width: 97%;
+}
+
+.loginForm input[type="text"]:focus,
+.loginForm input[type="password"]:focus {
+  -webkit-box-shadow: 0 0 2px #ed1c24 inset;
+  -moz-box-shadow: 0 0 2px #ed1c24 inset;
+  -ms-box-shadow: 0 0 2px #ed1c24 inset;
+  -o-box-shadow: 0 0 2px #ed1c24 inset;
+  box-shadow: 0 0 2px #ed1c24 inset;
+  background-color: #fff;
+  border: 1px solid #ed1c24;
+  outline: none;
+}
+
+.userName {
+  background-position: 10px 5px !important;
+}
+
+.passWord {
+  background-position: 10px -58px !important;
+}
+
 .signUpContainer {
   width: auto;
   height: 100vh;
@@ -40,11 +74,53 @@
   justify-content: center;
 }
 
+.signUpHolder {
+  background-color: white;
+  padding: 50px;
+  border-radius: 4px;
+}
+
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.signUpForm input[type="text"],
+.signUpForm input[type="password"] {
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0, 0, 0, 0.08) inset;
+  transition: all 0.5s ease;
+  border: 0.5px solid #c8c8c8;
+  color: #777;
+  font: 20px Helvetica, Arial, sans-serif;
+  padding: 2px 2px 2px 2px;
+  width: 100%;
+}
+
+.signUpForm input[type="text"]:focus,
+.signUpForm input[type="password"]:focus {
+  -webkit-box-shadow: 0 0 2px #ed1c24 inset;
+  -moz-box-shadow: 0 0 2px #ed1c24 inset;
+  -ms-box-shadow: 0 0 2px #ed1c24 inset;
+  -o-box-shadow: 0 0 2px #ed1c24 inset;
+  box-shadow: 0 0 2px #ed1c24 inset;
+  background-color: #fff;
+  border: 1px solid #ed1c24;
+  outline: none;
+}
+
+
+.signUpName,
+.signUpPass {
+  display: flex;
+  flex-direction: column;
+}
+
 button {
   border-radius: 5px;
-  border-width: 0.5px;
+  border-width: 0.1px;
   background-color: white;
-  border-color: #0053a6 #0053a6 #000;
+  border-color: black;
   padding: 4px 10px;
   font-weight: bold;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, .2);
@@ -56,11 +132,31 @@ button:hover {
 }
 
 span {
+  font-size: 18px;
   font-family: 'Mountains of Christmas', cursive;
 }
-
+/*
 .genericInput {
 
+}
+*/
+.leftDiv, .rightDiv {
+  color: white;
+}
+
+.leftDiv {
+  width: 100%;
+  /*background-color: green;*/
+}
+
+.rightDiv {
+  width: 100%;
+  /*background-color: white;*/
+}
+
+.mainSection {
+  display: flex;
+  justify-content: space-between;
 }
 
 ::-webkit-input-placeholder {

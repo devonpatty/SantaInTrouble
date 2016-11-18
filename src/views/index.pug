@@ -6,20 +6,31 @@ block content
         button Logout
     else
       form.loginForm(action='/login' method='post')
-        input.genericInput(type='text' name='userFieldInput' placeholder="Username")
-        span ''
-        input.genericInput(type='password' name='passFieldInput' placeholder="Password")
-        span ''
-        button
-          img(src='./buttons_ico/santa_claus_ico.png')
-          span  Login
+        div
+          input.genericInput.userName(type='text' name='userFieldInput' placeholder="Username")
+        div
+          input.genericInput.passWord(type='password' name='passFieldInput' placeholder="Password")
+        div
+          button
+            img(src='./buttons_ico/santa_claus_ico.png')
+            span  Login
       form(action='/signup' method='get')
         button
           img(src='./buttons_ico/snowman_ico.png')
           span  Sign Up
-  .gameCanvas
-    canvas#myCanvas(width='800', height='600', style='border: 1px solid black;')
-  #output
+  section.mainSection
+    .leftDiv
+      h3 About the game
+      h5 blahblah....
+      h4 Controls
+      p W
+      p A
+      p S
+      p D
+    .gameCanvas
+      canvas#myCanvas(width='800', height='600', style='border: 1px solid black;')
+    .rightDiv
+      h2 table!!
 
   script(src='./js/globals.js')
   script(src='./js/consts.js')
