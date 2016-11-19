@@ -57,6 +57,42 @@
   outline: none;
 }
 
+.loginBtn {
+  border-radius: 5px;
+  border-width: 0.1px;
+  background-color: rgba(87, 247, 59, 0.97);
+  color: white;
+  border-color: rgba(87, 247, 59, 0.97);
+  padding: 4px 10px;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, .2);
+  outline: none;
+}
+
+.loginBtn:hover {
+  box-shadow: 0 0 12px rgba(87, 247, 59, 0.97);
+  background-color: rgba(115, 249, 108, 0.94);
+  text-shadow: 0 0 1px rgba(254, 239, 236, 0.9);
+}
+
+.logOutBtn {
+  border-radius: 5px;
+  border-width: 0.1px;
+  background-color: rgba(247, 244, 59, 0.97);
+  color: white;
+  border-color: rgba(247, 244, 59, 0.97);
+  padding: 4px 10px;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, .2);
+  outline: none;
+}
+
+.logOutBtn:hover {
+  box-shadow: 0 0 12px rgba(247, 244, 59, 0.97);
+  background-color: rgba(248, 245, 84, 0.97);
+  text-shadow: 0 0 1px rgba(254, 239, 236, 0.9);
+}
+
 .userName {
   background-position: 10px 5px !important;
 }
@@ -109,26 +145,30 @@
   outline: none;
 }
 
-
 .signUpName,
 .signUpPass {
   display: flex;
   flex-direction: column;
 }
 
-button {
+.registerBtn,
+.reBtn {
   border-radius: 5px;
   border-width: 0.1px;
-  background-color: white;
-  border-color: black;
+  background-color: rgba(211, 39, 9, 0.86);
+  border-color: rgba(211, 39, 9, 0.86);
   padding: 4px 10px;
   font-weight: bold;
+  color: white;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, .2);
   outline: none;
 }
 
-button:hover {
-  background-color: #e8e8e8;
+.registerBtn:hover,
+.reBtn:hover {
+  box-shadow: 0 0 12px rgba(211, 39, 9, 0.86);
+  background-color: rgba(240, 53, 20, 0.9);
+  text-shadow: 0 0 2px rgba(254, 239, 236, 0.9);
 }
 
 span {

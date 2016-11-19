@@ -3,7 +3,8 @@ block content
   .header
     if loggedIn
       form(action='/logout' method='get')
-        button Logout
+        button.logOutBtn
+          span Logout
     else
       form.loginForm(action='/login' method='post')
         div
@@ -11,22 +12,22 @@ block content
         div
           input.genericInput.passWord(type='password' name='passFieldInput' placeholder="Password")
         div
-          button
+          button.loginBtn
             img(src='./buttons_ico/santa_claus_ico.png')
             span  Login
       form(action='/signup' method='get')
-        button
+        button.reBtn
           img(src='./buttons_ico/snowman_ico.png')
-          span  Sign Up
+          span  Register
   section.mainSection
     .leftDiv
       h3 About the game
-      h5 blahblah....
-      h4 Controls
-      p W
-      p A
-      p S
-      p D
+      p This is a christmas game designed for everybody and should take only 30-40 minutes to complete the game.
+      h3 Controls
+      p move up W
+      p move left A
+      p move down S
+      p move right D
     .gameCanvas
       canvas#myCanvas(width='800', height='600', style='border: 1px solid black;')
     .rightDiv
