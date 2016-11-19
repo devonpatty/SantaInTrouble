@@ -2,17 +2,19 @@ extends layout
 block content
   .signUpContainer
     .signUpHolder
-      h2 Register Form
-      form.signUpForm(action='/newUser' method='post')
-        .signUpName
-          label(for="name") Username:
-          input.genericInput(type='text' id="name" name='userFieldInput' required)
-          p=userError
-        .signUpPass
-          label(for="pass") Password:
-          input.genericInput(type='password' id="pass" name='passFieldInput' required)
-          p=passError
-        div
-          button.registerBtn
-            img(src='./buttons_ico/snowman_ico.png')
-            span  Register
+      h2.fsTitle Create Your Account
+      div.registerContainer
+        form.signUpForm(action='/newUser' method='post')
+          .signUpName
+            label(for="name") Username:
+            input.genericInput(type='text' id="name" name='userFieldInput' required)
+            p=userError
+          .signUpPass
+            label(for="pass") Password:
+            input.genericInput(type='password' id="pass" name='passFieldInput' required)
+            p=passError
+          br
+          .registerDiv
+            button.registerBtn
+              img(src='./buttons_ico/snowman_ico.png')
+              span  Register
