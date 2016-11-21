@@ -5,6 +5,7 @@ block content
       form(action='/logout' method='get')
         button.logOutBtn
           span Logout
+      p Welcome username
     else
       form.loginForm(action='/login' method='post')
         div
@@ -28,15 +29,32 @@ block content
       p move left A
       p move down S
       p move right D
+      if loggedIn
+        h3 Top Score
+        h3 Times Played
+      else
+        h3 Register for more fun!!!
+        p If you register you can save your game online and play anywhere. Compete against other player.
     .gameCanvas
       canvas#myCanvas(width='800', height='600', style='border: 1px solid black;')
     .rightDiv
-      table
-        tr
-          th Score
-        tr
-          td 1234
-
+      ul.tab
+        li
+          a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'daily')") Daily
+        li
+          a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'weekly')") Weekly
+        li
+          a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'alltime')") All Time
+      div.tabContent#daily
+        h3 Daily
+        p your score sucks.
+      div.tabContent#weekly
+        h3 Weekly
+        p even sucker.
+      div.tabContent#alltime
+        h3 All Time
+        p worse player all time.
+  script(src='./js/mainPage.js')
   script(src='./js/globals.js')
   script(src='./js/consts.js')
   script(src='./js/util.js')

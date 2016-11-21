@@ -6,6 +6,10 @@
 	vertical-align: baseline;
 }
 
+p {
+  color: white;
+}
+
 .wrapper {
   width: 100%;
   min-height: 100vh;
@@ -123,8 +127,10 @@
   justify-content: center;
 }
 
-.registerForm {
-  
+.signUpForm .signUpName p,
+.signUpForm .signUpPass p {
+  color: red;
+  font-style: italic;
 }
 
 .signUpForm input[type="text"],
@@ -157,6 +163,12 @@
   flex-direction: column;
 }
 
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .fsTitle {
   font-size: 20px;
   text-transform: uppercase;
@@ -164,7 +176,16 @@
   margin-bottom: 20px;
 }
 
+.returnBtn span a:link,
+.returnBtn span a:visited,
+.returnBtn span a:hover,
+.returnBtn span a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 .registerBtn,
+.returnBtn,
 .reBtn {
   border-radius: 5px;
   border-width: 0.1px;
@@ -177,7 +198,13 @@
   outline: none;
 }
 
+.registerBtn,
+.returnBtn {
+  width: 94.98px;
+}
+
 .registerBtn:hover,
+.returnBtn:hover,
 .reBtn:hover {
   box-shadow: 0 0 12px rgba(211, 39, 9, 0.86);
   background-color: rgba(240, 53, 20, 0.9);
@@ -202,9 +229,53 @@ span {
   /*background-color: green;*/
 }
 
+/******** right side div ********/
 .rightDiv {
   width: 100%;
-  /*background-color: white;*/
+}
+
+ul.tab {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0.1px solid rgba(255, 126, 41, 0.92);
+  background-color: rgba(255, 126, 41, 0.92);
+}
+
+ul.tab li {
+  float: left;
+}
+
+/*if ever use */
+ul.tab li a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 17px;
+  border: 0.1px solid white;
+}
+
+
+/* Change background color of links on hover*/
+ul.tab li a:hover {
+  background-color: #ddd;
+  border: 0.1px solid white;
+}
+
+
+/* Create an active/current tablink class*/
+ul.tab li a:focus, .active {background-color: #ccc;}
+
+/* Style the tab content */
+.tabContent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
 }
 
 .mainSection {

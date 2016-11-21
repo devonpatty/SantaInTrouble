@@ -14,7 +14,12 @@ block content
             input.genericInput(type='password' id="pass" name='passFieldInput' required)
             p=passError
           br
-          .registerDiv
-            button.registerBtn
-              img(src='./buttons_ico/snowman_ico.png')
-              span  Register
+          div.buttonContainer
+            .homePageDiv
+              button.returnBtn
+                span
+                  a(href="/") Return
+            .registerDiv
+              button.registerBtn
+                img(src='./buttons_ico/snowman_ico.png')
+                span  Register
