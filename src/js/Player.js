@@ -100,14 +100,26 @@ loadFromStorage: function(){
 },
 
 loadFromServer: function(){
+	$.ajax({
+		'url': '/loadGame',
+		'type': 'get',
+		'success': function(response){
+			let data = response[0].savegame;
+			console.log(data)
+			Player.loadingFromServer(data)
+		}
+	})
+},
+
+loadingFromServer: function(data){
 	this._allUpgrades = [this._strength, this._speed, this._magicCapacity, this._magnetRadius,
 						 this._luck, this._piercing, this._snowBallCraft, this._snowBallMagicRadius]
-	this._totalGifts = 0;
-	this._maxDistance = 0;
-	this._totalKills = 0;
-	this._curGifts = 0;
+	this._totalGifts = parseInt(data.totalGifts, 10) || 0;
+	this._maxDistance = parseInt(data.maxDistance, 10) || 0;
+	this._totalKills = parseInt(data.totalKills, 10) || 0;
+	this._curGifts = parseInt(data.curGifts, 10) || 0;
 	for(var i = 0; i < this._allUpgrades.length; i++){
-		this._allUpgrades[i].level = 0;
+		this._allUpgrades[i].level =parseInt( data[i], 10) || 0;
 	}
 },
 
@@ -116,17 +128,52 @@ buyFor: function(x){
 },
 
 saveGame: function(){
+	let saveData = {};
+	saveData.totalGifts = this._totalGifts;
+	saveData.maxDistance = this._maxDistance;
+	saveData.totalKills = this._totalKills;
+	saveData.curGifts = this._curGifts;
+	for(var i = 0; i < this._allUpgrades.length; i++){
+		saveData[i] = this._allUpgrades[i].level;
+	}
+	$.ajax({
+		'url': '/loginCheck',
+		'type': 'get',
+		'success': function(response){
+			if(response){
+				Player.saveGameServer(saveData);
+			}else{
+				Player.saveGameLocal(saveData)
+			};
+		}
+	})
+
+},
+
+saveGameLocal: function(saveData){
+	console.log("saved...")
 	if(typeof(Storage) !== "undefined") {
-		localStorage.totalGifts = this._totalGifts;
-		localStorage.maxDistance = this._maxDistance;
-		localStorage.totalKills = this._totalKills;
-		localStorage.curGifts = this._curGifts;
+		localStorage.totalGifts = saveData.totalGifts;
+		localStorage.maxDistance = saveData.maxDistance;
+		localStorage.totalKills = saveData.totalKills;
+		localStorage.curGifts = saveData.curGifts;
 		for(var i = 0; i < this._allUpgrades.length; i++){
-			localStorage[i] = this._allUpgrades[i].level;
+			localStorage[i] = saveData[i];
 		}
 	} else {
 		// Sorry! No Web Storage support..
 	}
+},
+
+saveGameServer: function(saveData){
+	$.ajax({
+		'url': '/saveGame',
+		'type': 'post',
+		'data': {'saveData': saveData},
+		'success': function(response){
+			console.log("saved Online")
+		}
+	})
 },
 
 clearGame: function(){

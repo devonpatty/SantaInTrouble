@@ -10,6 +10,7 @@ const user = require('./user.js');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use( bodyParser.json() );
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
@@ -78,6 +79,22 @@ app.get('/loginCheck', (req, res) => {
   }else{
     res.send(false);
   }
+});
+
+app.get('/loadGame', (req, res) => {
+  let username = req.session.username;
+  db.any('SELECT savegame FROM "user" where username = ($1)',[username])
+    .then((data) => {
+      res.send(data)
+    })
+
+});
+
+app.post('/saveGame', (req, res) => {
+  let saveGame = req.body.saveData;
+  let username = req.session.username;
+  db.any('UPDATE "user" SET savegame = ($1) where username = ($2)',[saveGame,username]);
+  res.send("saved")
 })
 
 function isLoggedIn(req, res, next) {
