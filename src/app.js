@@ -31,7 +31,16 @@ app.get('/', isLoggedIn, (req, res) => {
 });
 
 app.get('/loggedIn', (req, res) => {
-  res.render('index', { title: 'SantaInTroubles', loggedIn: true});
+  db.any('SELECT savegame FROM "user" WHERE username=$1', [req.session.username])
+    .then((data) => {
+      let response = data[0].savegame;
+      res.render('index', {
+        title: 'SantaInTroubles',
+        loggedIn: true,
+        username: req.session.username,
+        savegame: response
+      });
+    })
 });
 
 app.get('/signup', (req, res) => {
