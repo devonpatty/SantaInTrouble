@@ -44,13 +44,15 @@ app.post('/newUser', (req, res) => {
   if(password === "") {
     res.render('signup', {passError: 'password length has to be more than 5.'});
   }
-  db.any('insert into "user" (username, password) values ($1, $2)', [username, password])
+  else {
+    db.any('insert into "user" (username, password) values ($1, $2)', [username, password])
     .then((data) => {
       res.redirect('/');
     })
     .catch((error) => {
       res.render('signup', {userError: username + ' username already exists!'});
     });
+  }
 });
 
 app.post('/login', (req, res) => {
