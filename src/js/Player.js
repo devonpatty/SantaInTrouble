@@ -64,10 +64,20 @@ _mojoBars: {base : 1,
 			},
 
 _curGifts : 0,
-_totalGifts : 0,
+
+_lastGifts: 0,
+_lastKills: 0,
+_lastDistance: 0,
+_lastScore: 0,
+
+_maxGifts : 0,
 _maxDistance: 0,
+_maxKills: 0,
+_maxScore: 0,
+
+_totalGifts: 0,
+_totalDistance: 0,
 _totalKills: 0,
-_score: 0,
 
 deferredSetup: function(){
 	$.ajax({
@@ -88,11 +98,14 @@ loadFromStorage: function(){
 	this._allUpgrades = [this._strength, this._speed, this._magicCapacity, this._magnetRadius,
 						 this._luck, this._piercing, this._snowBallCraft, this._snowBallMagicRadius]
 	if(typeof(Storage) !== "undefined") {
-		this._totalGifts = parseInt(localStorage.totalGifts,10) || 0;
-		this._maxDistance = parseInt(localStorage.maxDistance,10) || 0;
-		this._totalKills = parseInt(localStorage.totalKills, 10) || 0;
 		this._curGifts = parseInt(localStorage.curGifts,10) || 0;
-		this._score = parseInt(localStorage.score, 10) || 0;
+		this._maxGifts = parseInt(localStorage.maxGifts,10) || 0;
+		this._maxDistance = parseInt(localStorage.maxDistance,10) || 0;
+		this._maxKills = parseInt(localStorage.maxKills, 10) || 0;
+		this._maxScore = parseInt(localStorage.maxScore, 10) || 0;
+		this._totalGifts = parseInt(localStorage.totalGifts, 10) || 0;
+		this._totalDistance = parseInt(localStorage.totalDistance, 10) || 0;
+		this._totalKills = parseInt(localStorage.totalKills, 10) || 0;
 		for(var i = 0; i < this._allUpgrades.length; i++){
 			this._allUpgrades[i].level = parseInt(localStorage[i],10) || 0;
 		}
@@ -107,36 +120,62 @@ loadFromServer: function(){
 		'type': 'get',
 		'success': function(response){
 			let data = response[0].savegame;
-			console.log(data)
-			Player.loadingFromServer(data)
+			console.log(data);
+			if(data) {
+				Player.loadingFromServer(data);
+			} else {
+				Player.initializeAttr();
+			}
 		}
 	})
 },
 
 loadingFromServer: function(data){
 	this._allUpgrades = [this._strength, this._speed, this._magicCapacity, this._magnetRadius,
-						 this._luck, this._piercing, this._snowBallCraft, this._snowBallMagicRadius]
-	this._totalGifts = parseInt(data.totalGifts, 10) || 0;
-	this._maxDistance = parseInt(data.maxDistance, 10) || 0;
-	this._totalKills = parseInt(data.totalKills, 10) || 0;
+						 this._luck, this._piercing, this._snowBallCraft, this._snowBallMagicRadius];
 	this._curGifts = parseInt(data.curGifts, 10) || 0;
-	this._score = parseInt(data.score, 10) || 0;
+	this._maxGifts = parseInt(data.maxGifts, 10) || 0;
+	this._maxDistance = parseInt(data.maxDistance, 10) || 0;
+	this._maxKills = parseInt(data.maxKills, 10) || 0;
+	this._maxScore = parseInt(data.maxScore, 10) || 0;
+	this._totalGifts = parseInt(data.totalGifts, 10) || 0;
+	this._totalDistance = parseInt(data.totalDistance, 10) || 0;
+	this._totalKills = parseInt(data.totalKills) || 0;
 	for(var i = 0; i < this._allUpgrades.length; i++){
 		this._allUpgrades[i].level =parseInt( data[i], 10) || 0;
 	}
 },
 
-buyFor: function(x){
+initializeAttr: function() {
+	this._allUpgrades = [this._strength, this._speed, this._magicCapacity, this._magnetRadius,
+						 this._luck, this._piercing, this._snowBallCraft, this._snowBallMagicRadius];
+	this._curGifts = 0;
+	this._maxGifts = 0;
+	this._maxDistance = 0;
+	this._maxKills = 0;
+	this._maxScore = 0;
+	this._totalGifts = 0;
+	this._totalDistance = 0;
+	this._totalKills = 0;
+	for(var i = 0; i < this._allUpgrades.length; i++){
+		this._allUpgrades[i].level = 0;
+	}
+},
+
+buyFor: function(x) {
 	this._curGifts -= x;
 },
 
 saveGame: function(){
 	let saveData = {};
-	saveData.totalGifts = this._totalGifts;
+	saveData.maxGifts = this._maxGifts;
 	saveData.maxDistance = this._maxDistance;
-	saveData.totalKills = this._totalKills;
+	saveData.maxKills = this._maxKills;
 	saveData.curGifts = this._curGifts;
-	saveData.score = this._score;
+	saveData.maxScore = this._maxScore;
+	saveData.totalGifts = this._totalGifts;
+	saveData.totalKills = this._totalKills;
+	saveData.totalDistance = this._totalDistance;
 	for(var i = 0; i < this._allUpgrades.length; i++){
 		saveData[i] = this._allUpgrades[i].level;
 	}
@@ -157,11 +196,14 @@ saveGame: function(){
 saveGameLocal: function(saveData){
 	console.log("saved...")
 	if(typeof(Storage) !== "undefined") {
-		localStorage.totalGifts = saveData.totalGifts;
+		localStorage.maxGifts = saveData.maxGifts;
 		localStorage.maxDistance = saveData.maxDistance;
-		localStorage.totalKills = saveData.totalKills;
+		localStorage.maxKills = saveData.maxKills;
 		localStorage.curGifts = saveData.curGifts;
-		localStorage.score = saveData.score;
+		localStorage.maxScore = saveData.maxScore;
+		localStorage.totalGifts = saveData.totalGifts;
+		localStorage.totalKills = saveData.totalKills;
+		localStorage.totalDistance = saveData.totalDistance;
 		for(var i = 0; i < this._allUpgrades.length; i++){
 			localStorage[i] = saveData[i];
 		}
@@ -184,11 +226,14 @@ saveGameServer: function(saveData){
 clearGame: function(){
 	if(typeof(Storage) !== "undefined") {
 		localStorage.clear();
-		this._totalGifts = 0;
+		this._maxGifts = 0;
 		this._maxDistance = 0;
-		this._totalKills = 0;
+		this._maxKills = 0;
 		this._curGifts = 0;
-		this._score = 0;
+		this._maxScore = 0;
+		this._totalGifts = 0;
+		this._totalKills = 0;
+		this._totalDistance = 0;
 		for(var i = 0; i < this._allUpgrades.length; i++){
 			this._allUpgrades[i].level = 0;
 		}
@@ -359,8 +404,8 @@ getSnowBallMagicDamage: function(){
 	return this._snowBallMagicDamage.base * this._snowBallMagicDamage.levels[this._snowBallMagicRadius.level];
 },
 
-getTotalGifts: function(){
-	return this._totalGifts;
+getMaxGifts: function(){
+	return this._maxGifts;
 },
 
 getCurGifts: function() {
@@ -371,12 +416,40 @@ getMaxDistance: function() {
 	return this._maxDistance;
 },
 
+getMaxKills: function() {
+	return this._maxKills;
+},
+
+getMaxScore: function() {
+	return this._maxScore;
+},
+
+getLastScore: function() {
+	return this._lastScore;
+},
+
+getLastGift: function() {
+	return this._lastGifts;
+},
+
+getLastKill: function() {
+	return this._lastKills;
+},
+
+getLastDistance: function() {
+	return this._lastDistance;
+},
+
+getTotalGifts: function() {
+	return this._totalGifts;
+},
+
 getTotalKills: function() {
 	return this._totalKills;
 },
 
-getScore: function() {
-	return this._score;
+getTotalDistance: function() {
+	return this._totalDistance;
 },
 
 getCostAndLevel: function(){
@@ -387,25 +460,34 @@ getCostAndLevel: function(){
 	return costAndLevel;
 },
 
-addGifts: function(gifts){
+addGifts: function(gifts) {
 	this._totalGifts += gifts;
 	this._curGifts += gifts;
+	this._lastGifts = gifts;
+	if(this._maxGifts < gifts) this._maxGifts = gifts;
 },
 
 addMaxDistance: function(distance) {
+	this._lastDistance = distance;
+	this._totalDistance += distance;
 	if(this._maxDistance < distance)
 		this._maxDistance = distance;
 },
 
 addTotalKills: function(kill) {
+	this._lastKills = kill;
 	this._totalKills += kill;
+	if(this._maxKills < kill) this._maxKills = kill;
 },
 
 addScore: function(distance, kill, gifts) {
 	let giftScore = Math.sqrt(gifts)*Math.sqrt(Math.sqrt(gifts));
 	let travelScore = Math.sqrt(distance*2);
 	console.log(giftScore, kill, travelScore);
-	this._score = Math.round((giftScore + kill) * travelScore);
+	let score = Math.round((giftScore + kill) * travelScore)
+	this._lastScore = score;
+	if(this._maxScore < score ) this._maxScore = score;
+
 }
 
 }

@@ -54,13 +54,30 @@ Upgrade.prototype.render = function(ctx){
 	ctx.fillText(Player.getCurGifts() ,100, 132);
 	ctx.restore();
 	ctx.font = "bold 12px Arial";
-	ctx.fillText("Total Gifts", 450, 202);
-	ctx.fillText(Player.getTotalGifts(), 700, 202);
-	ctx.fillText("Total Knock Outs", 450, 222);
-	ctx.fillText(Player.getTotalKills(), 700, 222);
-	ctx.fillText("Max Distance Traveled", 450, 242);
-	ctx.fillText(Player.getMaxDistance()+"m",700, 242);
+	ctx.fillText("Gifts", 450, 202);
+	ctx.fillText(Player.getLastGift(), 700, 202);
+	ctx.fillText("Knock Outs", 450, 222);
+	ctx.fillText(Player.getLastKill(), 700, 222);
+	ctx.fillText("Distance", 450, 242);
+	ctx.fillText(Player.getLastDistance()+"m", 700, 242);
 	ctx.fillText("Score", 450, 262);
-	ctx.fillText(Player.getScore(), 700, 262);
+	ctx.fillText(Player.getLastScore(), 700, 262);
+
+	ctx.fillText("Max Gifts", 450, 302);
+	ctx.fillText(Player.getMaxGifts(), 700, 302);
+	ctx.fillText("Max Knock Outs", 450, 322);
+	ctx.fillText(Player.getMaxKills(), 700, 322);
+	ctx.fillText("Max Distance Traveled", 450, 342);
+	ctx.fillText(Player.getMaxDistance()+"m", 700, 342);
+	ctx.fillText("Max Score", 450, 362);
+	ctx.fillText(Player.getMaxScore(), 700, 362);
+
+	ctx.fillText("Total Gifts", 450, 402);
+	ctx.fillText(Player.getTotalGifts(), 700, 402);
+	ctx.fillText("Total Knock Outs", 450, 422);
+	ctx.fillText(Player.getTotalKills(), 700, 422);
+	ctx.fillText("Total Distance Traveled", 450, 442);
+	ctx.fillText(Player.getTotalDistance()+"m", 700, 442);
+
 	this.fillTexts(ctx);
 }
