@@ -4,19 +4,19 @@ function Upgrade(descr){
     }
 	this.upgradeSprite = g_sprites.upgradeScreen;
 	this.init();
-} 
+}
 Upgrade.prototype = new Entity();
 
 Upgrade.prototype.buttons = [
 	{upgrade : "upgradeStrength", canUp : "canUpStrength", title : "Strength", text: "Strength increases damage and snowball speed"},
-	{upgrade : "upgradeSpeed", canUp : "canUpSpeed", title : "Speed", text : "Speed increases sleigh's movement and map speed"}, 
-	{upgrade : "upgradeMagicFuel", canUp : "canUpMagicFuel", title : "Magic", text : "Magic increases magic capacity and decreases magic consumption"},	
+	{upgrade : "upgradeSpeed", canUp : "canUpSpeed", title : "Speed", text : "Speed increases sleigh's movement and map speed"},
+	{upgrade : "upgradeMagicFuel", canUp : "canUpMagicFuel", title : "Magic", text : "Magic increases magic capacity and decreases magic consumption"},
 	{upgrade : "upgradeMagnet", canUp : "canUpMagnet", title : "Magnet", text : "Magnet increases the radius of gifts and bonuses pull"},
 	{upgrade : "upgradeLuck", canUp : "canUpLuck", title : "Luck", text : "Luck increases gifts and bonuses drop rate"},
 	{upgrade : "upgradePiercing", canUp : "canUpPiercing", title : "Piercing", text : "Piercing adds +1 to snowballs hit"},
 	{upgrade : "upgradeSnowBallCraft", canUp : "canUpSnowBallCraft", title : "Snowball Craft", text : "Snowball Craft increases snowball creation rate and ammunition"},
 	{upgrade : "upgradeSnowBallMagicRadius", canUp : "canUpSnowBallMagicRadius", title : "Snowball Magic", text : "Snowball Magic increases passive damage radius and adds 10% damage"}
-]; 
+];
 
 Upgrade.prototype.init = function(){
 	for(var i = 0; i < this.buttons.length; i++){
@@ -34,7 +34,7 @@ Upgrade.prototype.fillTexts = function(ctx){
 	for(var i = 0; i < this.buttons.length; i++){
 		ctx.fillStyle = "white";
 		ctx.fillText(this.buttons[i].title, 40, 202+i*30);
-		ctx.fillText(costAndLevel[i][0], 240,202+i*30);	
+		ctx.fillText(costAndLevel[i][0], 240,202+i*30);
 		for(var j = 0; j < costAndLevel[i][2]; j++){
 			if(costAndLevel[i][1] > j){
 				ctx.fillStyle = "green"
@@ -48,7 +48,7 @@ Upgrade.prototype.fillTexts = function(ctx){
 
 Upgrade.prototype.render = function(ctx){
 	this.upgradeSprite.drawAt(ctx, 0, 0);
-	ctx.fillStyle = 'white';	
+	ctx.fillStyle = 'white';
 	ctx.save();
 	ctx.font = "bold 16px Arial";
 	ctx.fillText(Player.getCurGifts() ,100, 132);
@@ -60,5 +60,7 @@ Upgrade.prototype.render = function(ctx){
 	ctx.fillText(Player.getTotalKills(), 700, 222);
 	ctx.fillText("Max Distance Traveled", 450, 242);
 	ctx.fillText(Player.getMaxDistance()+"m",700, 242);
+	ctx.fillText("Score", 450, 262);
+	ctx.fillText(Player.getScore(), 700, 262);
 	this.fillTexts(ctx);
 }

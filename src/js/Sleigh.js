@@ -1,6 +1,6 @@
 function Sleigh(descr){
 	this.setup(descr);
-	
+
 	this.sprites = g_sprites.sleigh;
 	this.sprite = this.sprites[0];
 	this.scoreGiftSprite = g_sprites.scoreGift;
@@ -8,23 +8,23 @@ function Sleigh(descr){
 
 	this.speed = Player.getSpeed();
 	this.mapSpeed = 0.4 + Player.getSpeed()-3 ;
-	
+
 	//Magic
 	this.iniMagic = Player.getMagicCapacity();
 	this.magic = Player.getMagicCapacity();
 	this.magicComsumption = Player.getMagicComsuption();
-	
+
 	//Reloading
 	this.craftSpeed = Player.getSnowBallCraftSpeed();
     this.snowBallsCapacity = Player.getSnowBallCapacity();
-	
+
 	this.gifts = [0,0,0,0];
 	this.kills = 0;
 }
 
 Sleigh.prototype = new Entity();
 /*
-Sleigh.prototype.shootSound = new Audio( 
+Sleigh.prototype.shootSound = new Audio(
 	"sounds/Laser_shoot.wav"
 );*/
 //Controls ============================
@@ -60,7 +60,7 @@ Sleigh.prototype.update = function(du){
 	this.rotation = 0;
 	this.lived++;
 	spatialManager.unregister(this);
-	
+
 	//Set global map speed
 	this.setMapSpeed();
 	if((this.magic == 0 || this._isDeadNow) && this.cy+this.getRadius() > entityManager.GROUND_HEIGHT && this.lived%40 == 0) {
@@ -72,6 +72,7 @@ Sleigh.prototype.update = function(du){
 		Player.addGifts(numGifts);
 		Player.addTotalKills(this.kills);
 		Player.addMaxDistance(entityManager.getDistance());
+		Player.addScore(entityManager.getDistance(), this.kills, numGifts);
 		Player.saveGame();
 		if(!entityManager.isGameWon){
 			entityManager.gameLost();
@@ -80,21 +81,21 @@ Sleigh.prototype.update = function(du){
 		}
 		return entityManager.KILL_ME_NOW;
 	}
-	
+
 	//Craft snowballs
 	if(this.lived % this.craftSpeed == 0 && this.craftedBalls < this.snowBallsCapacity) this.craftedBalls++;
-	
+
 	//Moving
 	this.movement(du);
-	
+
 	this.sprite = this.sprites[0];
-	
+
 	this.updateVars();
 	//Shooting
 	if(this.pressedFire){this.throwSnowball();}
 	if(this.reloading > 0){this.reloading -= 1 + Player.getDamage() * 0.01;}
 	if(this.reloading < 0){this.reloading = 0;}
-	
+
 	spatialManager.register(this);
 }
 
@@ -134,7 +135,7 @@ Sleigh.prototype.movement = function(du){
 		this.cy += this.velY;
 		this.rotation += 0.05;
 	}
-	
+
 	if(util.randRange(0,1) > 0.85){
 		var randCx = util.randRange(this.cx-this.getRadius()*2,this.cx-this.getRadius());
 		var randCy = util.randRange(this.cy-this.getRadius(),this.cy+this.getRadius());
@@ -190,7 +191,7 @@ Sleigh.prototype.movement = function(du){
 }
 
 Sleigh.prototype.throwSnowball = function(){
-	
+
 	if (this.reloading == 0 && this.craftedBalls > 0 && this.magic > 0) {
 		this.sprite = this.sprites[1];
 		var dx = g_mouseX - this.cx+10;
@@ -199,7 +200,7 @@ Sleigh.prototype.throwSnowball = function(){
 		var strength = Player.getSnowBallVelovity();
 		var velX = (dx / mag) * strength;
 		var velY = (dy / mag) * strength;
-		
+
 		var damage = Player.getDamage();
 		entityManager.generateSnowball(
 			this.cx+10, this.cy-14,
@@ -279,7 +280,7 @@ Sleigh.prototype.getEnemyHit = function(damage){
 };
 
 Sleigh.prototype.pullGift = function(){
-	
+
 };
 
 //Render functions
@@ -336,6 +337,3 @@ Sleigh.prototype.render = function(ctx){
 	ctx, this.cx, this.cy, Math.PI*this.rotation
     );
 };
-
-
-

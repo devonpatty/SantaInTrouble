@@ -67,6 +67,7 @@ _curGifts : 0,
 _totalGifts : 0,
 _maxDistance: 0,
 _totalKills: 0,
+_score: 0,
 
 deferredSetup: function(){
 	$.ajax({
@@ -91,6 +92,7 @@ loadFromStorage: function(){
 		this._maxDistance = parseInt(localStorage.maxDistance,10) || 0;
 		this._totalKills = parseInt(localStorage.totalKills, 10) || 0;
 		this._curGifts = parseInt(localStorage.curGifts,10) || 0;
+		this._score = parseInt(localStorage.score, 10) || 0;
 		for(var i = 0; i < this._allUpgrades.length; i++){
 			this._allUpgrades[i].level = parseInt(localStorage[i],10) || 0;
 		}
@@ -118,6 +120,7 @@ loadingFromServer: function(data){
 	this._maxDistance = parseInt(data.maxDistance, 10) || 0;
 	this._totalKills = parseInt(data.totalKills, 10) || 0;
 	this._curGifts = parseInt(data.curGifts, 10) || 0;
+	this._score = parseInt(data.score, 10) || 0;
 	for(var i = 0; i < this._allUpgrades.length; i++){
 		this._allUpgrades[i].level =parseInt( data[i], 10) || 0;
 	}
@@ -133,6 +136,7 @@ saveGame: function(){
 	saveData.maxDistance = this._maxDistance;
 	saveData.totalKills = this._totalKills;
 	saveData.curGifts = this._curGifts;
+	saveData.score = this._score;
 	for(var i = 0; i < this._allUpgrades.length; i++){
 		saveData[i] = this._allUpgrades[i].level;
 	}
@@ -157,6 +161,7 @@ saveGameLocal: function(saveData){
 		localStorage.maxDistance = saveData.maxDistance;
 		localStorage.totalKills = saveData.totalKills;
 		localStorage.curGifts = saveData.curGifts;
+		localStorage.score = saveData.score;
 		for(var i = 0; i < this._allUpgrades.length; i++){
 			localStorage[i] = saveData[i];
 		}
@@ -183,6 +188,7 @@ clearGame: function(){
 		this._maxDistance = 0;
 		this._totalKills = 0;
 		this._curGifts = 0;
+		this._score = 0;
 		for(var i = 0; i < this._allUpgrades.length; i++){
 			this._allUpgrades[i].level = 0;
 		}
@@ -369,6 +375,10 @@ getTotalKills: function() {
 	return this._totalKills;
 },
 
+getScore: function() {
+	return this._score;
+},
+
 getCostAndLevel: function(){
 	var costAndLevel = [];
 	for(var i = 0; i < this._allUpgrades.length; i++){
@@ -390,6 +400,13 @@ addMaxDistance: function(distance) {
 addTotalKills: function(kill) {
 	this._totalKills += kill;
 },
+
+addScore: function(distance, kill, gifts) {
+	let giftScore = Math.sqrt(gifts)*Math.sqrt(Math.sqrt(gifts));
+	let travelScore = Math.sqrt(distance*2);
+	console.log(giftScore, kill, travelScore);
+	this._score = Math.round((giftScore + kill) * travelScore);
+}
 
 }
 
