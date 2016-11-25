@@ -1,32 +1,32 @@
 function CloudEnemy(descr) {
 	this.setup(descr);
-	
+
 	this.level = this.level || 0;
 	this.cloudSprite = g_sprites.cloudEnemy;
 	this.cloudSpriteBack = g_sprites.cloudEnemyBack;
-	
+
 	this.spriteIndex = 0;
 	this.sprites = this.cloudSprite;
 	this.sprite = this.cloudSprite[this.spriteIndex];
-	
+
 	this.oriScale = this.sprite.scale
 	this.scale = 0.6;
-	
+
 	lives = [[20,24],[90,94],[128,132]];
 	this.oriLife = util.randRange(lives[this.level][0],lives[this.level][1]);
 	this.life = this.oriLife;
 	this.damage = this.oriLife;
-	
+
 	var vel = [0.04,0.06,0.08]
 	this.vel = vel[this.level];
 	var velocities = [2,2.2,2.4]
 	this.maxVel = velocities[this.level];
-	
+
 	this.reloadTime = 50;
 	this.reloading = 0;
-	
+
 	this.decideDirection();
-	
+
 	this.reward = [6,12,18];
 };
 
@@ -45,33 +45,35 @@ CloudEnemy.prototype.decideDirection = function(){
 CloudEnemy.prototype.update = function(du) {
 	this.lived++;
 	spatialManager.unregister(this);
-	
-	if(this._isDeadNow) return entityManager.KILL_ME_NOW;
-	
+
+	if(this._isDeadNow) {
+		if(!entityManager.isPlayerDead()) entityManager.addEnemyKill();
+		return entityManager.KILL_ME_NOW;
+	}
 	if(this.reloadTime > this.reloading) this.reloading++;
-	
+
 	var difX = this.cx - this.gx;
 	var difY = this.cy - this.gy;
 	if(Math.abs(difX) <= 50 && Math.abs(difY) < 50) this.decideDirection();
-		
+
 	if(difX < 0 && this.velX < this.maxVel){ this.velX += this.vel; }
 	else if(difX > 0 && this.velX > -this.maxVel){ this.velX -= this.vel; }
-	
+
 	if(difY < 0 && this.velY < this.maxVel) { this.velY += this.vel; }
 	else if(difY > 0 && this.velY > -this.maxVel){ this.velY -= this.vel; }
-	
+
 	this.cx += this.velX;
 	this.cy += this.velY;
-	
+
 	this.maybeShoot();
-	
+
 	var pos = entityManager.getSleighPos();
 	if(this.cx < pos.posX){
 		this.sprites = this.cloudSpriteBack;
 	}else{
 		this.sprites = this.cloudSprite;
 	}
-	
+
 	var hitEntity = this.findHitEntity();
 	if (hitEntity) {
 		var canGetEnemyHit = hitEntity.getEnemyHit;
@@ -88,7 +90,7 @@ CloudEnemy.prototype.maybeShoot = function(){
 	if(this.reloadTime === this.reloading){
 		this.spriteIndex++;
 		if(this.spriteIndex === 2){
-			
+
 		}
 		if(this.spriteIndex === 3){
 			this.reloading = 0;

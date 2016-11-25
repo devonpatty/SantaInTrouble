@@ -1,20 +1,20 @@
 function EnemySnowman(descr) {
 	this.setup(descr);
-	
+
 	this.level = this.level || 0;
-	
+
 	this.bodySprite = g_sprites.snowManBody;
 	this.headSprite = g_sprites.snowManHead;
-	this.scale = this.scale || 0.6;	
+	this.scale = this.scale || 0.6;
 	this.spriteIndex = 0;
-	
+
 	this.cy = entityManager.GROUND_HEIGHT - 46*this.scale;
-	
+
 	lives = [[26,32],[96,102],[136,142]];
 	this.oriLife = util.randRange(lives[this.level][0],lives[this.level][1]);
 	this.life = this.oriLife;
 	this.damage = this.oriLife;
-	
+
 	this.reward = [5,11,17];
 };
 
@@ -24,10 +24,15 @@ EnemySnowman.prototype.update = function(du) {
 	this.lived++;
 	this.computeSprite(du);
 	spatialManager.unregister(this);
-	if(this._isDeadNow || this.cx < -50) return entityManager.KILL_ME_NOW;
-	
+	if(this.cx < -50) return entityManager.KILL_ME_NOW;
+
+	if(this._isDeadNow){
+		if(!entityManager.isPlayerDead()) entityManager.addEnemyKill();
+		return entityManager.KILL_ME_NOW;
+	}
+
 	this.cx -= MAP_SPEED;
-	
+
 
 	// head curve
 	this.headDegree();
@@ -35,7 +40,7 @@ EnemySnowman.prototype.update = function(du) {
 	// shoot
 	if(this.reloadCount != this.reload) {this.reloadCount++;}
 	this.fire();
-	
+
 	//handle collision
 
 	var hitEntity = this.findHitEntity();
@@ -51,7 +56,7 @@ EnemySnowman.prototype.update = function(du) {
 };
 
 EnemySnowman.prototype.headDegree = function() {
-	var pos = entityManager.getSleighPos();	
+	var pos = entityManager.getSleighPos();
 	var dx = pos.posX - this.cx;
 	var dy = pos.posY-(Math.abs(dx)/3) - this.cy;
 	var mag = Math.sqrt(dx * dx + dy * dy);
@@ -74,7 +79,7 @@ EnemySnowman.prototype.fire = function() {
 				var strength = 8 + this.level;
 				var velX = (dx/mag)*strength;
 				var velY = (dy/mag)*strength;
-			
+
 				this.damage = strength * 2;
 				entityManager.generateEnemySnowball(
 					this.cx, this.cy+4,
@@ -123,5 +128,5 @@ EnemySnowman.prototype.render = function(ctx) {
 	ctx, this.cx, this.cy, this.rotation
 	);
 	ctx.fillRect(this.cx-this.getRadius(),this.cy-this.getRadius()-2,(this.getRadius()*2)*(this.life/(this.oriLife)),3)
-	
+
 };

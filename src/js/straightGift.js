@@ -1,26 +1,26 @@
 function straightGift(descr) {
 	this.setup(descr);
-	
+
 	this.level = this.level || 0;
-	
+
 	var sprites = [g_sprites.straightGift,g_sprites.straightGift2,g_sprites.straightGift3];
 	this.sprite = sprites[this.level];
-	
-	
-	
+
+
+
 	var velocities = [[1.5,2],[2,2.5],[2.5,3]];
 	this.vel = util.randRange(velocities[this.level][0],velocities[this.level][1]);
 	this.endCy = util.randRange(0, entityManager.GROUND_HEIGHT);
 	this.decideDirection();
-	
+
 	this.oriScale = this.sprite.scale
 	this.scale = this.oriScale;
-	
+
 	var lives = [[8,12],[40,44],[90,94]]
 	this.oriLife = util.randRange(lives[this.level][0],lives[this.level][1]);
 	this.life = this.oriLife;
 	this.damage = this.oriLife;
-	
+
 	this.reward = [1,7,13];
 };
 
@@ -36,14 +36,19 @@ straightGift.prototype.decideDirection = function() {
 };
 
 straightGift.prototype.update = function(du) {
-	
+
 	spatialManager.unregister(this);
-	
-	if(this.cx < -this.getRadius() || this._isDeadNow) return entityManager.KILL_ME_NOW;
-	
+
+	if(this.cx < -50) return entityManager.KILL_ME_NOW;
+
+	if(this._isDeadNow){
+		if(!entityManager.isPlayerDead()) entityManager.addEnemyKill();
+		return entityManager.KILL_ME_NOW;
+	}
+
 	this.cx -= this.velX;
 	this.cy -= this.velY;
-	
+
 	//handle collision
 
 	var hitEntity = this.findHitEntity();
@@ -89,5 +94,5 @@ straightGift.prototype.render = function(ctx) {
 	);
 	this.sprite.scale = this.oriScale;
 	ctx.fillRect(this.cx-this.getRadius(),this.cy+this.getRadius(),(this.getRadius()*2)*(this.life/(this.oriLife)),3)
-	
+
 };

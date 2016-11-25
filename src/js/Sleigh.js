@@ -69,11 +69,32 @@ Sleigh.prototype.update = function(du){
 		for(var i = 0; i < this.gifts.length;i++){
 			numGifts += this.gifts[i] * giftValues[i];
 		}
+		let kills = this.kills;
+		let distance = entityManager.getDistance();
 		Player.addGifts(numGifts);
-		Player.addTotalKills(this.kills);
-		Player.addMaxDistance(entityManager.getDistance());
-		Player.addScore(entityManager.getDistance(), this.kills, numGifts);
+		Player.addTotalKills(kills);
+		Player.addMaxDistance(distance);
+
+		let giftScore = Math.sqrt(numGifts)*Math.sqrt(Math.sqrt(numGifts));
+		let travelScore = Math.sqrt(distance*2);
+		let score = Math.round((giftScore + kills) * travelScore)
+		Player.addScore(score);
 		Player.saveGame();
+
+		$.ajax({
+			'url': '/loginCheck',
+			'type': 'get',
+			'success': function(response){
+				if(response){
+					$.ajax({
+						'url': '/saveRound',
+						'type': 'post',
+						'data': {'gifts': numGifts, 'kills': kills, 'distance': distance, 'score': score},
+					})
+				}
+			}
+		})
+
 		if(!entityManager.isGameWon){
 			entityManager.gameLost();
 		}else{

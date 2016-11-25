@@ -17,7 +17,7 @@ with suitable 'data' and 'methods'.
 
 
 // Tell jslint not to complain about my use of underscore prefixes (nomen),
-// my flattening of some indentation (white), or my use of incr/decr ops 
+// my flattening of some indentation (white), or my use of incr/decr ops
 // (plusplus).
 //
 /*jslint nomen: true, white: true, plusplus: true*/
@@ -80,12 +80,12 @@ gameIsWon: false,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._bg, this._generator, this._trees, this._sleighs, this._snowballs, this._enemies, 
-						this._gifts, this._snakeGifts, this._powerups, this._animations, 
+    this._categories = [this._bg, this._generator, this._trees, this._sleighs, this._snowballs, this._enemies,
+						this._gifts, this._snakeGifts, this._powerups, this._animations,
 						this._stardust, this._snow, this._foreGround, this._upgrade, this._buttons];
 },
 
-init: function() {	
+init: function() {
 	//this._generateForeGrounds();
 	this._generateBgs();
 },
@@ -203,6 +203,7 @@ getSleighPos: function(){
 },
 
 addEnemyKill : function(){
+	console.log("Killed enemy")
 	this._sleighs[0].addKills();
 },
 
@@ -234,7 +235,7 @@ getLoot: function(giftMin,pos){
 		amountArr[0] += 1;
 		amount -= 1;
 	}
-	
+
 	if(util.randRange(1,10) > 6){
 		this.generatePowerUp({
 			cx : pos.posX,
@@ -243,7 +244,7 @@ getLoot: function(giftMin,pos){
 		});
 	}
 	this.spawnEnemyGifts(amountArr,pos);
-	
+
 },
 
 spawnEnemyGifts: function(numGifts,pos){
@@ -271,7 +272,7 @@ playAgain: function(){
         cx : 200,
         cy : 200,
 		sprite : g_sprites.sleigh
-    }); 
+    });
 
 	this._generateGenerator();
 	this._generateForeGrounds();
@@ -387,7 +388,7 @@ render: function(ctx) {
 
         var aCategory = this._categories[c];
 
-        if (!this._bShowRocks && 
+        if (!this._bShowRocks &&
             aCategory == this._rocks)
             continue;
 
@@ -415,5 +416,3 @@ render: function(ctx) {
 
 // Some deferred setup which needs the object to have been created first
 entityManager.deferredSetup();
-
-

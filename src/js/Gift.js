@@ -1,6 +1,6 @@
 function Gift(descr) {
 	this.setup(descr);
-	
+
 	this.vel = 5;
 	this.life = 300;
 	this.gift = this.gift || 0;
@@ -23,10 +23,10 @@ Gift.prototype.decideDirection = function() {
 };
 
 Gift.prototype.update = function(du) {
-	
+
 	spatialManager.unregister(this);
 	this.lived++;
-	
+
 	var slowDownSpeed = 0.82;
 	if(this.cx < -this.getRadius() || this.lived >= this.life) return entityManager.KILL_ME_NOW;
 	if(Math.abs(this.velX) > 0.01){
@@ -39,7 +39,7 @@ Gift.prototype.update = function(du) {
 	}else{
 		this.velY = 0;
 	}
-	
+
 
 	if(!entityManager.isPlayerDead())
 	{
@@ -60,18 +60,18 @@ Gift.prototype.update = function(du) {
 	if(this.cy + this.velY <= entityManager.GROUND_HEIGHT + this.getRadius()/2 && this.cy + this.velY > 0+	this.getRadius()){
 		this.cy += this.velY;
 	}
-		
-	
+
+
 	//handle collision
 	var hitEntity = this.findHitEntity();
 	if (hitEntity) {
 		var canGift = hitEntity.takeGift;
 		if (canGift) {
-			canGift.call(hitEntity, this.gift); 
+			canGift.call(hitEntity, this.gift);
 			return entityManager.KILL_ME_NOW;
 		}
 	}
-	
+
 	spatialManager.register(this);
 };
 
@@ -81,7 +81,7 @@ Gift.prototype.getRadius = function() {
 
 Gift.prototype.render = function(ctx) {
 	this.sprite.scale = this.scale;
-	
+
 	if(this.lived > this.life* 4/5){
 		ctx.globalAlpha = 1 -((this.lived - this.life* 4/5)/ (this.life/5));
 	}

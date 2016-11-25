@@ -120,7 +120,6 @@ loadFromServer: function(){
 		'type': 'get',
 		'success': function(response){
 			let data = response[0].savegame;
-			console.log(data);
 			if(data) {
 				Player.loadingFromServer(data);
 			} else {
@@ -194,7 +193,6 @@ saveGame: function(){
 },
 
 saveGameLocal: function(saveData){
-	console.log("saved...")
 	if(typeof(Storage) !== "undefined") {
 		localStorage.maxGifts = saveData.maxGifts;
 		localStorage.maxDistance = saveData.maxDistance;
@@ -218,7 +216,6 @@ saveGameServer: function(saveData){
 		'type': 'post',
 		'data': {'saveData': saveData},
 		'success': function(response){
-			console.log("saved Online")
 		}
 	})
 },
@@ -480,11 +477,7 @@ addTotalKills: function(kill) {
 	if(this._maxKills < kill) this._maxKills = kill;
 },
 
-addScore: function(distance, kill, gifts) {
-	let giftScore = Math.sqrt(gifts)*Math.sqrt(Math.sqrt(gifts));
-	let travelScore = Math.sqrt(distance*2);
-	console.log(giftScore, kill, travelScore);
-	let score = Math.round((giftScore + kill) * travelScore)
+addScore: function(score) {
 	this._lastScore = score;
 	if(this._maxScore < score ) this._maxScore = score;
 

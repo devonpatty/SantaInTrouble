@@ -1,24 +1,24 @@
 function snakeGift(descr) {
 	this.setup(descr);
-	
+
 	this.level = this.level || 0;
-	
+
 	var sprites = [g_sprites.snakeGift,g_sprites.snakeGift2,g_sprites.snakeGift3];
-	this.sprite = sprites[this.level];	
-	
+	this.sprite = sprites[this.level];
+
 	this.oriScale = this.sprite.scale;
 	this.scale = this.oriScale;
-	
+
 	var lives = [[13,17],[50,54],[100,104]]
 	this.oriLife = util.randRange(lives[this.level][0],lives[this.level][1]);
 	this.life = this.oriLife;
 	this.damage = this.oriLife;
-	
+
 	this.vel = 1;
 	this.waveLength = [1,2,3];
-	
+
 	this.cy = util.randRange(30,entityManager.GROUND_HEIGHT - 100 * (this.waveLength[this.level]/3) - 30)
-	
+
 	this.reward = [2,8,14];
 
 };
@@ -33,9 +33,11 @@ snakeGift.prototype.update = function(du) {
 
 	spatialManager.unregister(this);
 	this.lived++;
-	
+
 	this.computeFloatingStep(du);
-	if(this.cx < -this.getRadius() || this._isDeadNow) {
+	if(this.cx < -50) return entityManager.KILL_ME_NOW;
+
+	if(this._isDeadNow){
 		if(!entityManager.isPlayerDead()) entityManager.addEnemyKill();
 		return entityManager.KILL_ME_NOW;
 	}
@@ -44,11 +46,11 @@ snakeGift.prototype.update = function(du) {
 	if (hitEntity) {
 		var canGetEnemyHit = hitEntity.getEnemyHit;
 		if (canGetEnemyHit) {
-			canGetEnemyHit.call(hitEntity, this.damage); 
+			canGetEnemyHit.call(hitEntity, this.damage);
 			return entityManager.KILL_ME_NOW;
 		}
 	}
-	
+
 	spatialManager.register(this);
 };
 
@@ -87,7 +89,7 @@ snakeGift.prototype.getRadius = function() {
 
 snakeGift.prototype.render = function(ctx) {
 	if(util.randRange(0,1) > 0.7)	this.createStarDust();
-	this.sprite.scale = this.scale;	
+	this.sprite.scale = this.scale;
 	this.sprite.drawCentredAt(
 	ctx, this.cx, this.cy, this.rotation
 	);

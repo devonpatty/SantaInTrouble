@@ -1,27 +1,27 @@
 function HomingGift(descr) {
 	this.setup(descr);
-	
+
 	this.level = this.level || 0;
-	
+
 	this.spritesFowards = g_sprites.homingGift;
 	this.spritesBackwards = g_sprites.homingGiftBackward;
 	this.sprites = this.spritesFowards;
 	this.spriteIndex = 0;
 	this.sprite = this.sprites[this.spriteIndex];
-	
+
 	var velocities = [2.4,2.8,3.2];
 	this.vel = velocities[this.level];
 	this.follow = 140;
 	this.pause = 70
-	
+
 	this.oriScale = this.sprite.scale
 	this.scale = this.oriScale/2;
-	
+
 	var lives = [[20,24],[80,84],[120,124]]
 	this.oriLife = util.randRange(lives[this.level][0],lives[this.level][1]);
 	this.life = this.oriLife;
 	this.damage = this.oriLife;
-	
+
 	this.reward = [4,10,16];
 };
 
@@ -33,23 +33,27 @@ HomingGift.prototype.velY = 0;
 HomingGift.prototype.update = function(du) {
 	this.lived++;
 	spatialManager.unregister(this);
-	if(this._isDeadNow) return entityManager.KILL_ME_NOW;
-	
+
+	if(this._isDeadNow){
+		if(!entityManager.isPlayerDead()) entityManager.addEnemyKill();
+		return entityManager.KILL_ME_NOW;
+	}
+
 	var sPos = entityManager.getSleighPos();
 	var dx = sPos.posX - this.cx;
-	
+
 	if(dx <= 0){
 		this.sprites = this.spritesFowards;
 	}else{
 		this.sprites = this.spritesBackwards;
 	}
 	if(this.lived % this.follow < this.pause){
-		
+
 		var dy = sPos.posY - this.cy;
 		var mag = Math.sqrt(dx * dx + dy * dy);
 		this.velX = (dx / (mag + util.randRange(-20,20))) * this.vel;
 		this.velY = (dy / (mag + util.randRange(-20,20))) * this.vel;
-		
+
 		this.spriteIndex = 0;
 	}else{
 		if(Math.abs(this.velX) < this.vel) this.velX = 0;
@@ -68,10 +72,10 @@ HomingGift.prototype.update = function(du) {
 			}
 		}
 	}
-	
+
 	this.cx += this.velX;
 	this.cy += this.velY;
-	
+
 	//handle collision
 
 	var hitEntity = this.findHitEntity();
@@ -94,7 +98,7 @@ HomingGift.prototype.fire = function (){
 	var strength = 9 + this.level;
 	var velX = (dx / mag) * strength;
 	var velY = (dy / mag) * strength;
-	
+
 	var damage = strength * 2;
 	entityManager.generateEnemySnowball(
 		this.cx+10, this.cy-14,
@@ -134,5 +138,5 @@ HomingGift.prototype.render = function(ctx) {
 	);
 	this.sprite.scale = this.oriScale;
 	ctx.fillRect(this.cx-this.getRadius(),this.cy+this.getRadius(),(this.getRadius()*2)*(this.life/(this.oriLife)),3)
-	
+
 };

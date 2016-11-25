@@ -108,6 +108,20 @@ app.post('/saveGame', (req, res) => {
   res.send("saved")
 })
 
+app.post('/saveRound', (req, res) => {
+  let runData = req.body;
+  let username = req.session.username;
+  let date = new Date();
+  db.any('INSERT into "round" VALUES($1, $2, $3, $4, $5, $6)',[username, date, runData.gifts, runData.kills, runData.distance, runData.score])
+  .then((data) => {
+    res.send("saved")
+  })
+  .catch((error) => {
+    res.send("not saved")
+  });
+
+})
+
 function isLoggedIn(req, res, next) {
   if(req.session.username) {
     res.redirect('/loggedIn');

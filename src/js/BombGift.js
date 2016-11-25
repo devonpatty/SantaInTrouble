@@ -1,26 +1,26 @@
 function BombGift(descr) {
 	this.setup(descr);
-	
+
 	this.level = this.level || 0;
-	
+
 	this.sprite = this.sprite || g_sprites.bombGift;
-	
+
 	this.decideC();
-	
+
 	this.oriScale = this.sprite.scale
 	this.scale = this.oriScale;
-	
+
 	var lives = [[16,20],[45,59],[75,79]]
 	this.oriLife = util.randRange(lives[this.level][0],lives[this.level][1]);
 	this.life = this.oriLife;
-	
+
 	var lifeLenghts = [360,340,320]
 	this.lifeLength = lifeLenghts[this.level];
 	this.damage = this.oriLife;
 	this.blinkRate = (this.lifeLength/6);
 	var blinkRates = [1.23,1.26,1.29];
 	this.blinkRateIncrease = blinkRates[this.level];
-	
+
 	this.reward = [3,9,15];
 };
 
@@ -38,7 +38,7 @@ BombGift.prototype.decideC = function(){
 	if(util.randRange(this.getRadius(),g_canvas.width-this.getRadius()) < sPos.posX){
 		this.cx = util.randRange(50,sPos.posX-50)
 	}else{
-		
+
 		this.cx = util.randRange(sPos.posX + 50,g_canvas.width-50)
 	}
 	if(util.randRange(this.getRadius(),entityManager.GROUND_HEIGHT-this.getRadius()) < sPos.posY){
@@ -46,7 +46,7 @@ BombGift.prototype.decideC = function(){
 	}else{
 		this.cy = util.randRange(sPos.posY + 50, entityManager.GROUND_HEIGHT-50);
 	}
-	
+
 	if(this.cx < this.getRadius() || this.cx > g_canvas.width-this.getRadius()
 		|| this.cy < this.getRadius() || this.cy > entityManager.GROUND_HEIGHT-this.getRadius()){
 			this.decideC();
@@ -54,16 +54,19 @@ BombGift.prototype.decideC = function(){
 };
 
 BombGift.prototype.update = function(du) {
-	
+
 	spatialManager.unregister(this);
 	this.lived++;
-	
-	if(this._isDeadNow) return entityManager.KILL_ME_NOW;
-	
+
+	if(this._isDeadNow){
+		if(!entityManager.isPlayerDead()) entityManager.addEnemyKill();
+		return entityManager.KILL_ME_NOW;
+	}
+
 	if(this.lived > this.lifeLength){
 		this.explode();
 	}
-	
+
 	this.alpha += ((this.blinkRate/this.lifeLength)/10)*this.alphaUpOrDown;
 	if(this.alpha <= 0.3){
 		this.alphaUpOrDown *= -1;
@@ -73,15 +76,15 @@ BombGift.prototype.update = function(du) {
 		this.alphaUpOrDown *= -1;
 		this.blinkRate *= this.blinkRateIncrease;
 		this.alpha = 1;
-	}	
-	
+	}
+
 	//handle collision
 
 	var hitEntity = this.findHitEntity();
 	if (hitEntity) {
 		var canGetEnemyHit = hitEntity.getEnemyHit;
 		if (canGetEnemyHit) {
-			canGetEnemyHit.call(hitEntity, this.damage); 
+			canGetEnemyHit.call(hitEntity, this.damage);
 			return entityManager.KILL_ME_NOW;
 		}
 	}
@@ -104,7 +107,7 @@ BombGift.prototype.explode = function(){
 		);
 	}
 	entityManager.createExplosion({
-		cx : this.cx, 
+		cx : this.cx,
 		cy : this.cy,
 		scale : this.scale*5,
 		sprites : g_sprites.snowBlastExplosion
@@ -143,5 +146,5 @@ BombGift.prototype.render = function(ctx) {
 	);
 	ctx.globalAlpha = 1;
 	this.sprite.scale = this.oriScale;
-	ctx.fillRect(this.cx-this.getRadius(),this.cy+this.getRadius(),(this.getRadius()*2)*(this.life/(this.oriLife)),3)	
+	ctx.fillRect(this.cx-this.getRadius(),this.cy+this.getRadius(),(this.getRadius()*2)*(this.life/(this.oriLife)),3)
 };
