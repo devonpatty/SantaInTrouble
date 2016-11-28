@@ -15,8 +15,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 // breyta þarf hér fyrir    user   password                    database
+
+const env = process.env.DATABASE_URL;
 const dataSetting = 'postgres://postgres:Arsenal1@localhost:5432/santaintrouble';
-const db = pgp(dataSetting);
+const db = pgp(env || dataSetting);
 app.use(session({
   store: new pgSession({
     conString: dataSetting
@@ -27,10 +29,12 @@ app.use(session({
 }));
 
 app.get('/', isLoggedIn, (req, res) => {
+  getRankings();
   res.render('index', { title: 'SantaInTroubles' , loggedIn: false});
 });
 
 app.get('/loggedIn', (req, res) => {
+
   db.any('SELECT savegame FROM "user" WHERE username=$1', [req.session.username])
     .then((data) => {
       let response = data[0].savegame;
@@ -130,31 +134,17 @@ function isLoggedIn(req, res, next) {
   }
 };
 
-app.get('/sql', (req, res, next) => {
-  db.any('select * from "user"')
-    .then((data) => {
-      for(var prop in data) {
-        if(data.hasOwnProperty(prop)) {
-          console.log(data);
-          console.log('data: ' + data[prop]);
-        }
-      }
-      res.render('data', { title: 'Data', data });
-    })
-    .catch((error) => {
-      console.log('error', error);
-      res.render('error', {title: 'Error', error});
-    });
-});
-/*
-app.post('/calculated', (req, res) => {
-  const numEntered = req.body.userInput;
-  const splitNumber = multiplier.splitIntoNumbers(req.body.userInput);
-  const multiply = multiplier.multiply(splitNumber);
-  const factorize = multiplier.factorize(multiply);
-  res.render('index', { numEntered, splitNumber, multiply, factorize });
-});
-*/
+function getRankings(req, res) {
+  let firstDay = new Date();
+  let previousweek= new Date(firstDay.getTime() - 7 * 24 * 60 * 60 * 1000);
+  db.any('SELECT * FROM round ORDER BY score DESC LIMIT 100')
+  .then((data) => {
+    console.log(data)
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+};
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
