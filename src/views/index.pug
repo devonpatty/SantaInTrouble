@@ -1,4 +1,4 @@
-extends layout
+extends layout.pug
 block content
   .header
     if loggedIn
@@ -35,31 +35,8 @@ block content
         h3 Register for more fun!!!
         p If you register you can save your game online and play anywhere. Compete against other player.
     .gameCanvas
-      canvas#myCanvas(width='800', height='600', style='border: 1px solid black;')
-    .rightDiv
-      ul.tab
-        li
-          a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'daily')") Daily
-        li
-          a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'weekly')") Weekly
-        li
-          a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'alltime')") All Time
-      div.tabContent#daily
-        table
-          thead
-            tr
-              th Name
-              th Score
-          tbody
-            tr
-              td bubu
-              td baba
-      div.tabContent#weekly
-        h3 Weekly
-        p agwe
-      div.tabContent#alltime
-        h3 All Time
-        p worse player all time.
+      canvas#myCanvas(width='800', height='600', style='border: 1px solid black;', tabindex='1')
+    include ranking.pug
   script(src='./js/mainPage.js')
   script(src='./js/globals.js')
   script(src='./js/consts.js')

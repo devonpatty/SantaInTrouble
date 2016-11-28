@@ -17,7 +17,7 @@ app.set('view engine', 'pug');
 // breyta þarf hér fyrir    user   password                    database
 
 const env = process.env.DATABASE_URL;
-const dataSetting = 'postgres://postgres:Arsenal1@127.0.0.1:5432/santaintrouble';
+const dataSetting = 'postgres://postgres:Arsenal1@localhost:5432/santaintrouble';
 const db = pgp(env || dataSetting);
 app.use(session({
   store: new pgSession({
@@ -28,23 +28,17 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.get('/', isLoggedIn, (req, res) => {
-  let today = new Date();
-  let yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
-  let dailyRanking = db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', yesterday);
-  let weeklyRanking = getWeeklyRanking();
-  console.log(dailyRanking, weeklyRanking)
+app.get('/', isLoggedIn, getDailyRanking, getWeeklyRanking, (req, res) => {
+
   res.render('index', {
     title: 'SantaInTroubles' ,
     loggedIn: false,
-    dailyRanking: dailyRanking,
-    weeklyRanking: weeklyRanking
+    dailyRanking: req.dailyRanking,
+    weeklyRanking: req.weeklyRanking
   });
 });
 
-app.get('/loggedIn', (req, res) => {
-  let dailyRanking = db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', yesterday);
-  let weeklyRanking = getWeeklyRanking();
+app.get('/loggedIn', getDailyRanking, getWeeklyRanking, (req, res) => {
   db.any('SELECT savegame FROM "user" WHERE username=$1', [req.session.username])
     .then((data) => {
       let response = data[0].savegame;
@@ -53,8 +47,8 @@ app.get('/loggedIn', (req, res) => {
         loggedIn: true,
         username: req.session.username,
         savegame: response,
-        dailyRanking: dailyRanking,
-        weeklyRanking: weeklyRanking
+        dailyRanking: req.dailyRanking,
+        weeklyRanking: req.weeklyRanking
       });
     })
 });
@@ -142,16 +136,18 @@ function isLoggedIn(req, res, next) {
   if(req.session.username) {
     res.redirect('/loggedIn');
   } else {
+    req.testing = "yeah bitches!"
     next();
   }
 };
 
-function getDailyRanking(req, res) {
+function getDailyRanking(req, res, next) {
   let today = new Date();
   let yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
   db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', yesterday)
   .then((data) => {
-    return data;
+    req.dailyRanking = data;
+    next();
   })
   .catch((error) => {
     console.log(error)
@@ -159,12 +155,13 @@ function getDailyRanking(req, res) {
 
 };
 
-function getWeeklyRanking(req, res) {
+function getWeeklyRanking(req, res, next) {
   let today = new Date();
   let previousweek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-  db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', previousweek)
+  db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', [previousweek])
   .then((data) => {
-    return data;
+    req.weeklyRanking = data;
+    next()
   })
   .catch((error) => {
     console.log(error)
