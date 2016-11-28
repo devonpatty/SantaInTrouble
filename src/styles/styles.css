@@ -234,6 +234,7 @@ span {
 }
 
 .controlsInfo {
+	width: 100%;
 	display: flex;
 	flex-direction: row;
 	padding: 0 5px 0 10px;
@@ -298,8 +299,14 @@ tr {
 }
 
 th, td {
+	width: 10%;
 	padding: 0 5px;
 	overflow: hidden;
+	border-bottom: 0.1px solid white;
+}
+
+tr:hover {
+	background-color: grey;
 }
 
 .mainSection {
