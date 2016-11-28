@@ -17,11 +17,11 @@ app.set('view engine', 'pug');
 // breyta þarf hér fyrir    user   password                    database
 
 const env = process.env.DATABASE_URL;
-const dataSetting = 'postgres://postgres:Arsenal1@localhost:5432/santaintrouble';
+const dataSetting = 'postgres://postgres:Arsenal1@127.0.0.1:5432/santaintrouble';
 const db = pgp(env || dataSetting);
 app.use(session({
   store: new pgSession({
-    conString: dataSetting
+    conString: env || dataSetting
   }),
   secret: 'jkhefhjNHmhgemjh7623ghw872jhgjHu72gh',
   resave: false,
