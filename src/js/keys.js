@@ -4,6 +4,8 @@
 
 var keys = [];
 
+var focus = document.getElementById('myCanvas');
+
 function handleKeydown(evt) {
     keys[evt.keyCode] = true;
 }
@@ -28,5 +30,5 @@ function keyCode(keyChar) {
     return keyChar.charCodeAt(0);
 }
 
-window.addEventListener("keydown", handleKeydown);
-window.addEventListener("keyup", handleKeyup);
+focus.addEventListener("keydown", handleKeydown);
+focus.addEventListener("keyup", handleKeyup);

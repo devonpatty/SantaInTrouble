@@ -31,6 +31,10 @@ p {
   justify-content: center;
 }
 
+#myCanvas {
+	outline: none;
+}
+
 .loginForm {
   display: flex;
   justify-content: space-between;
