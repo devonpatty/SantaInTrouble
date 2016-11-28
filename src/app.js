@@ -29,12 +29,22 @@ app.use(session({
 }));
 
 app.get('/', isLoggedIn, (req, res) => {
-  getRankings();
-  res.render('index', { title: 'SantaInTroubles' , loggedIn: false});
+  let today = new Date();
+  let yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+  let dailyRanking = db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', yesterday);
+  let weeklyRanking = getWeeklyRanking();
+  console.log(dailyRanking, weeklyRanking)
+  res.render('index', {
+    title: 'SantaInTroubles' ,
+    loggedIn: false,
+    dailyRanking: dailyRanking,
+    weeklyRanking: weeklyRanking
+  });
 });
 
 app.get('/loggedIn', (req, res) => {
-
+  let dailyRanking = db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', yesterday);
+  let weeklyRanking = getWeeklyRanking();
   db.any('SELECT savegame FROM "user" WHERE username=$1', [req.session.username])
     .then((data) => {
       let response = data[0].savegame;
@@ -42,7 +52,9 @@ app.get('/loggedIn', (req, res) => {
         title: 'SantaInTroubles',
         loggedIn: true,
         username: req.session.username,
-        savegame: response
+        savegame: response,
+        dailyRanking: dailyRanking,
+        weeklyRanking: weeklyRanking
       });
     })
 });
@@ -134,17 +146,30 @@ function isLoggedIn(req, res, next) {
   }
 };
 
-function getRankings(req, res) {
-  let firstDay = new Date();
-  let previousweek= new Date(firstDay.getTime() - 7 * 24 * 60 * 60 * 1000);
-  db.any('SELECT * FROM round ORDER BY score DESC LIMIT 100')
+function getDailyRanking(req, res) {
+  let today = new Date();
+  let yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+  db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', yesterday)
   .then((data) => {
-    console.log(data)
+    return data;
   })
   .catch((error) => {
     console.log(error)
   })
+
 };
+
+function getWeeklyRanking(req, res) {
+  let today = new Date();
+  let previousweek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+  db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', previousweek)
+  .then((data) => {
+    return data;
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
