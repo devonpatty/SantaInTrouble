@@ -24,16 +24,39 @@ block content
   section.mainSection
     .leftDiv
       h3 About the game
-      p This is a christmas game designed for everybody and should take only 30-40 minutes to complete the game.
+      span This is a christmas game designed for everybody and should take only 30-40 minutes to complete the game.
       h3 Controls
-      p move up W
-      p move left A
-      p move down S
-      p move right D
+      .controlsInfo
+        .infoLeft
+          div
+            img(src='./buttons_ico/w_btn.png')
+            span = move Up
+          div
+            img(src='./buttons_ico/s_btn.png')
+            span = move Down
+          div
+            img(src='./buttons_ico/a_btn.png')
+            span = move Left
+          div
+            img(src='./buttons_ico/d_btn.png')
+            span = move Right
+        .infoRight
+          div
+            img(src='./buttons_ico/mouse_select_left.png')
+            span = click/hold to Shoot
+          div
+            img(src='./buttons_ico/p_btn.png')
+            span = Pause
+          div
+            img(src='./buttons_ico/t_btn.png')
+            span = Start Game
+          div
+            img(src='./buttons_ico/k_btn.png')
+            span = Reset
       if loggedIn
       else
         h3 Register for more fun!!!
-        p If you register you can save your game online and play anywhere. Compete against other player.
+        span If you register you can save your game online and play anywhere. Compete against other player.
     .gameCanvas
       canvas#myCanvas(width='800', height='600', style='border: 1px solid black;', tabindex='1')
     include ranking.pug

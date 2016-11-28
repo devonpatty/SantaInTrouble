@@ -233,6 +233,17 @@ span {
   /*background-color: green;*/
 }
 
+.controlsInfo {
+	display: flex;
+	flex-direction: row;
+	padding: 0 5px 0 10px;
+}
+
+.infoLeft, .infoRight {
+	width: 50%;
+}
+
+
 /******** right side div ********/
 .rightDiv {
   width: 100%;
@@ -243,8 +254,6 @@ ul.tab {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  border: 0.1px solid rgba(255, 126, 41, 0.92);
-  background-color: rgba(255, 126, 41, 0.92);
 }
 
 ul.tab li {
@@ -258,28 +267,39 @@ ul.tab li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  transition: 0.3s;
   font-size: 17px;
-  border: 0.1px solid white;
 }
-
 
 /* Change background color of links on hover*/
 ul.tab li a:hover {
-  background-color: #ddd;
-  border: 0.1px solid white;
+  text-shadow: 0px 0px 20px white;
 }
 
-
 /* Create an active/current tablink class*/
-ul.tab li a:focus, .active {background-color: #ccc;}
+ul.tab li a:focus, .active {
+	border-bottom: 5px solid white;
+}
 
 /* Style the tab content */
 .tabContent {
     display: none;
     padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
+		animation: fadeEffect 1s;
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* table */
+tr {
+	padding: 5px;
+}
+
+th, td {
+	padding: 0 5px;
+	overflow: hidden;
 }
 
 .mainSection {

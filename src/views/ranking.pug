@@ -1,11 +1,9 @@
 .rightDiv
   ul.tab
     li
-      a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'daily')") Daily
+      a.tablinks#firstTab(href="javascript:void(0)" onclick="openRanking(event, 'daily')") Daily
     li
       a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'weekly')") Weekly
-    li
-      a.tablinks(href="javascript:void(0)" onclick="openRanking(event, 'alltime')") All Time
   div.tabContent#daily
     table
       thead
@@ -28,6 +26,3 @@
           tr
             td= round.username
             td= round.score
-  div.tabContent#alltime
-    h3 All Time
-    p worse player all time.
