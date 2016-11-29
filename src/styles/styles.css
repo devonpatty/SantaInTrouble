@@ -21,7 +21,8 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background: url('../buttons_ico/background.jpg') no-repeat;
+	background-size: 100% 100%;
 }
 
 .header {
@@ -314,12 +315,23 @@ ul.tab li a:focus, .active {
 }
 
 /* table */
-tr {
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #323232}
+/*tr {
 	padding: 3px 0px;
 }
 
-.tableHead {
-	border-bottom: 0.1px solid grey;
+thead tr {
+	border-bottom: 1px solid white;
 }
 
 th p {
@@ -332,11 +344,12 @@ th {
 
 th, td {
 	width: 10%;
+	border: none;
 }
 
-td:hover {
+tbody tr:hover {
 	background-color: grey;
-}
+}*/
 
 .mainSection {
   display: flex;
