@@ -4,11 +4,12 @@
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js", "**/*.spec.js"]}],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "max-len": ["error", 80],
+    "max-len": ["error", 100],
     "no-unused-vars": ["error", { "args": "none" }],
     "new-cap": ["error", { "capIsNew": false }],
     "func-names": ["error", "never"],
-    "no-lonely-if": ["error"]
+    "no-lonely-if": ["error"],
+    "linebreak-style": ["error", "windows"]
   },
   "env": {
     "browser": true,
