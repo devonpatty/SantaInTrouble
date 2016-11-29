@@ -1,34 +1,40 @@
-# R-Type
-A remake of R-type shoot em up game for Computer games class at the UNI of Iceland
+#SantaInTroubles
+About the project
+  This website is a HTML5 game environment, where players are able to create accounts to
+  save their scores and compete globally with score rankings. The game used is called
+  Santa in troubles which is a hobby project made by Pedro and Duc in December 2015.
 
+Modules:
+  In development state we used fews module to help us with the project.
+  devDependencies:
+    chai: 3.5.0
+    eslint: 3.8.1
+    eslint-config-airbnb: 12.0.0
+    eslint-plugin-import: 2.1.0
+    eslint-plugin-jsx-a11y: 2.2.3
+    eslint-plugin-react: 6.4.1
+    istanbul: 0.4.5
+    mocha: 3.1.2
 
-Control keys: WASD
-Fire: SPACE
-Hold fire to charge up laserbeam
+  dependencies:
+    body-parser: 1.15.2
+    connect-pg-simple: 3.1.2
+    express: 4.14.0
+    express-session: 1.14.2
+    pg: 6.1.0
+    pg-promise: 5.3.5
+    pug: 2.0.0-beta6
 
-4 Kinds of powerups:
-Blue:   More bullets
-Red:    Shield
-Gray:   Speed
-Green:  Missiles
-Powerups can stack.
+Commands:
+  npm start - to run locally.
+  npm run lint - to run eslint.
+  npm test - to run both coverage and lint.
+  npm watch - to check if there are any changes.
+  npm coverage - to check if we have cover all the test.
 
-Other keys:
-R: reset the ship
-K: kill the ship
-T: start the game
-M: mute the game (off by default)
-L: allow mixed actions (on by default)
-P: pause the game
-O: frame by frame mode
-X: see hitboxes (off by default)
-N: quit game
+Bugs:
+  if you find any bugs or have any suggestions contact us at plc1@hi.is || hnd1@hi.is
 
-C: clear canvas (on by default)
-R: render game
-F: flip flop (frame counter)
-
-H: halt the ship (deprecated)
-1: spawn a new ship a mouse location (disabled)
-2: spawn a new ship a mouse location (disabled)
-G: enable gravity (deprecated)
+Authors:
+  Pedro Luis Carvalho plc1@hi.is
+  Hoai Nam Duc Tran hnd1@hi.is

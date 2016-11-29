@@ -325,7 +325,9 @@ th, td {
     padding: 8px;
 }
 
-tr:nth-child(even){background-color: #323232}
+tr:nth-child(even){
+	background-color: rgba(50, 50, 50, 0.5);
+}
 /*tr {
 	padding: 3px 0px;
 }
