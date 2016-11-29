@@ -16,10 +16,17 @@ block content
           br
           div.buttonContainer
             .homePageDiv
-              button.returnBtn
-                span
-                  a(href="/") Return
+              button.returnBtn(type="button")
+                span Return
             .registerDiv
               button.registerBtn
                 img(src='./buttons_ico/snowman_ico.png')
                 span  Register
+  script.
+    function init() {
+      $('.returnBtn').click( function() {
+        console.log('huhu');
+        location.href="/";
+      });
+    }
+    init();

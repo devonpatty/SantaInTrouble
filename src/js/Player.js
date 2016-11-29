@@ -221,22 +221,33 @@ saveGameServer: function(saveData){
 },
 
 clearGame: function(){
-	if(typeof(Storage) !== "undefined") {
-		localStorage.clear();
-		this._maxGifts = 0;
-		this._maxDistance = 0;
-		this._maxKills = 0;
-		this._curGifts = 0;
-		this._maxScore = 0;
-		this._totalGifts = 0;
-		this._totalKills = 0;
-		this._totalDistance = 0;
-		for(var i = 0; i < this._allUpgrades.length; i++){
-			this._allUpgrades[i].level = 0;
+	$.ajax({
+		'url': '/loginCheck',
+		'type': 'get',
+		'success': function(response){
+			if(response){
+
+			}else{
+				if(typeof(Storage) !== "undefined") {
+					localStorage.clear();
+					Player._maxGifts = 0;
+					Player._maxDistance = 0;
+					Player._maxKills = 0;
+					Player._curGifts = 0;
+					Player._maxScore = 0;
+					Player._totalGifts = 0;
+					Player._totalKills = 0;
+					Player._totalDistance = 0;
+					for(var i = 0; i < this._allUpgrades.length; i++){
+						Player._allUpgrades[i].level = 0;
+					}
+				} else {
+					// Sorry! No Web Storage support..
+				}
+			};
 		}
-	} else {
-		// Sorry! No Web Storage support..
-	}
+	})
+
 },
 //Upgrades-----------------------------
 
