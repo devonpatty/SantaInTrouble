@@ -9,11 +9,11 @@ block content
           span Logout
     else
       form.loginForm(action='/login' method='post')
-        div
+        div.innerDiv
           input.genericInput.userName(type='text' name='userFieldInput' placeholder="Username")
-        div
+        div.innerDiv
           input.genericInput.passWord(type='password' name='passFieldInput' placeholder="Password")
-        div
+        div.innerDiv
           button.loginBtn
             img(src='./buttons_ico/santa_claus_ico.png')
             span  Login
@@ -23,9 +23,9 @@ block content
           span  Register
   section.mainSection
     .leftDiv
-      h3 About the game
+      h2 About the game
       p This is a christmas game designed for everybody and should take only 30-40 minutes to complete the game.
-      h3 Controls
+      h2 Controls
       .controlsInfo
         .infoLeft
           div
@@ -55,7 +55,7 @@ block content
             p  Reset
       if loggedIn
       else
-        h3 Register for more fun!!!
+        h2 Register for more fun!!!
         p If you register you can save your game online and play anywhere. Compete against other player.
     .gameCanvas
       canvas#myCanvas(width='800', height='600', style='border: 1px solid black;', tabindex='1')
