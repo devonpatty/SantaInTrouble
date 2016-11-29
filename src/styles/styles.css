@@ -21,7 +21,7 @@ p {
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 5px;
   padding-bottom: 20px;
 }
@@ -33,6 +33,10 @@ p {
 
 #myCanvas {
 	outline: none;
+}
+
+.fakeForm, .logOutForm {
+	padding-left: 5px;
 }
 
 .loginForm {
@@ -244,6 +248,11 @@ span {
 	width: 50%;
 }
 
+.infoLeft div, .infoRight div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 
 /******** right side div ********/
 .rightDiv {
@@ -295,14 +304,25 @@ ul.tab li a:focus, .active {
 
 /* table */
 tr {
-	padding: 5px;
+	padding: 10px 5px;
+}
+
+th p {
+	font-weight: bold;
+}
+
+th {
+	border-bottom: 0.1px solid white;
+}
+
+td {
+	border-bottom: 0.0001px solid grey;
 }
 
 th, td {
 	width: 10%;
 	padding: 0 5px;
 	overflow: hidden;
-	border-bottom: 0.1px solid white;
 }
 
 tr:hover {
