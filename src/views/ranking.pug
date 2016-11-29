@@ -8,6 +8,8 @@
     table
       thead
         tr
+          th.rank
+            p Rank
           th
             p Name
           th
@@ -15,12 +17,15 @@
       tbody
         each round,i in dailyRanking
           tr
+            td.rank= i+1
             td= round.username
             td= round.score
   div.tabContent#weekly
     table
       thead
         tr
+          th.rank
+            p Rank
           th
             p Name
           th
@@ -28,5 +33,6 @@
       tbody
         each round,i in weeklyRanking
           tr
+            td.rank= i+1
             td= round.username
             td= round.score

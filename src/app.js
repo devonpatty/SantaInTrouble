@@ -38,7 +38,7 @@ function isLoggedIn(req, res, next) {
 function getDailyRanking(req, res, next) {
   const today = new Date();
   const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
-  db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', yesterday)
+  db.any('SELECT username, MAX(score) as score FROM round WHERE date > $1 GROUP BY username ORDER BY score DESC LIMIT 100', yesterday)
   .then((data) => {
     req.dailyRanking = data;
     next();
@@ -48,7 +48,7 @@ function getDailyRanking(req, res, next) {
 function getWeeklyRanking(req, res, next) {
   const today = new Date();
   const previousweek = new Date(today.getTime() - (7 * 24 * 60 * 60 * 1000));
-  db.any('SELECT * FROM round WHERE date > $1 ORDER BY score DESC LIMIT 100', [previousweek])
+  db.any('SELECT username, MAX(score) as score FROM round WHERE date > $1 GROUP BY username ORDER BY score DESC LIMIT 100', [previousweek])
   .then((data) => {
     req.weeklyRanking = data;
     next();
