@@ -32,6 +32,10 @@ Commands:
   npm watch - to check if there are any changes.
   npm coverage - to check if we have cover all the test.
 
+Sources:
+  in the /buttons_ico folder the images are taken from www.iconfinder.com and www.devianart.com
+  in the /images folder are the file that we made by ourself.
+
 Bugs:
   if you find any bugs or have any suggestions contact us at plc1@hi.is || hnd1@hi.is
 
